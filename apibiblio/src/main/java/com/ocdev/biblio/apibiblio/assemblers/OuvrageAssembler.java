@@ -7,10 +7,10 @@ import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
 
 @Component
-public class OuvrageAssembler implements IOuvrageAssembler
+public class OuvrageAssembler implements IAssembler<Ouvrage, OuvrageDetail>
 {
 	@Override
-	public OuvrageDetail createOuvrageDetail(Ouvrage ouvrage) throws NullOrEmptyArgumentException
+	public OuvrageDetail createDto(Ouvrage ouvrage) throws NullOrEmptyArgumentException
 	{
 		if (ouvrage == null) throw new NullOrEmptyArgumentException("L'ouvrage ne peut pas être null");
 		
@@ -26,14 +26,14 @@ public class OuvrageAssembler implements IOuvrageAssembler
 	}
 
 	@Override
-	public Ouvrage createOuvrage(OuvrageDetail ouvrageDetail)
+	public Ouvrage createEntity(OuvrageDetail ouvrageDetail)
 	{
 		// TODO Auto-generated method stub
 		throw new NotYetImplementedException();
 	}
 
 	@Override
-	public Ouvrage updateOuvrage(OuvrageDetail ouvrageDetail)
+	public Ouvrage updateEntity(OuvrageDetail ouvrageDetail)
 	{
 		// TODO Auto-generated method stub
 		throw new NotYetImplementedException();
