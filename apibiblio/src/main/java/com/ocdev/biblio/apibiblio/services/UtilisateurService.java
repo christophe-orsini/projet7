@@ -1,5 +1,8 @@
 package com.ocdev.biblio.apibiblio.services;
 
+import com.ocdev.biblio.apibiblio.entities.Utilisateur;
+import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
+
 /**
  * Interface de déclaration des services pour les utilisateurs
  * @author C.Orsini
@@ -7,6 +10,6 @@ package com.ocdev.biblio.apibiblio.services;
 public interface UtilisateurService
 {
 	
-	public void inscrire();
+	public Utilisateur inscrire(String email, String password, String nom, String prenom) throws NullOrEmptyArgumentException;
 	
 }
