@@ -4,7 +4,6 @@ package com.ocdev.biblio.apibiblio.exceptions;
  * Classe exception pour recherche non trouvé et obligatoire.
  * Levé lorsque une recherche n'aboutit pas et qu'elle devrait.
  * @author C.Orsini
- * @See com.ocdev.biblio.apibiblio.assemblers
  */
 public class RequiredAndNotFoundException extends BiblioException
 {

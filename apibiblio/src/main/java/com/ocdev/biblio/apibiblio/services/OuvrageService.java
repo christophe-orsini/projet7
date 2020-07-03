@@ -20,7 +20,7 @@ public interface OuvrageService
 	 * @param theme Le {@link com.ocdev.biblio.apibiblio.entities.Theme} de l'ouvrage
 	 * @param qte Nombre d'exemplaires disponibles
 	 * @return L'ouvrage nouvellement créé ou mis à jour
-	 * @throws {@link com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException} levée si un argument est null ou vide
+	 * @throws NullOrEmptyArgumentException levée si un argument est null ou vide
 	 */
 	public Ouvrage ajouterOuChanger(String titre, String resume, String auteur, int anneePublication, String theme, int qte) throws NullOrEmptyArgumentException;
 	/**
@@ -34,7 +34,7 @@ public interface OuvrageService
 	 * 
 	 * @param id L'id de l'ouvrage
 	 * @return L'ouvrage trouvé
-	 * @throws {@link com.ocdev.biblio.apibiblio.exceptions.RequiredAndNotFoundException} levée si l'id n'existe pas
+	 * @throws RequiredAndNotFoundException levée si l'id n'existe pas
 	 */
 	public Ouvrage consulterOuvrage(Long id) throws RequiredAndNotFoundException;
 }
