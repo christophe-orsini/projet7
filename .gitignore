@@ -1,0 +1,6 @@
+.settings
+.classpath
+.project
+javadoc.xml
+target
+*.class
