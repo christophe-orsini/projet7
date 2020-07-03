@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.ocdev.biblio.apibiblio.assemblers.IOuvrageAssembler;
+import com.ocdev.biblio.apibiblio.assemblers.IAssembler;
 import com.ocdev.biblio.apibiblio.dto.OuvrageDetail;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
@@ -22,7 +22,7 @@ import com.ocdev.biblio.apibiblio.services.OuvrageService;
 public class OuvrageController
 {
 	@Autowired private OuvrageService ouvrageService;
-	@Autowired private IOuvrageAssembler ouvrageAssembler;
+	@Autowired private IAssembler<Ouvrage, OuvrageDetail> ouvrageAssembler;
 	
 	@PostMapping(value ="/ouvrages")
 	public ResponseEntity<OuvrageDetail> createOuvrage(@RequestBody final OuvrageDetail ouvrageDetail)
@@ -33,7 +33,7 @@ public class OuvrageController
 		{
 			Ouvrage ouvrage = ouvrageService.ajouterOuChanger(ouvrageDetail.getTitre(), ouvrageDetail.getResume(),
 					ouvrageDetail.getAuteur(), ouvrageDetail.getAnneeParution(), ouvrageDetail.getTheme(), 0);
-			newOuvrage = ouvrageAssembler.createOuvrageDetail(ouvrage);
+			newOuvrage = ouvrageAssembler.createDto(ouvrage);
 		}
 		catch (NullOrEmptyArgumentException e)
 		{
@@ -52,7 +52,7 @@ public class OuvrageController
 		{
 			Ouvrage ouvrage = ouvrageService.ajouterOuChanger(ouvrageDetail.getTitre(), ouvrageDetail.getResume(),
 					ouvrageDetail.getAuteur(), ouvrageDetail.getAnneeParution(), ouvrageDetail.getTheme(), ouvrageDetail.getNbreExemplaire());
-			newOuvrage = ouvrageAssembler.createOuvrageDetail(ouvrage);
+			newOuvrage = ouvrageAssembler.createDto(ouvrage);
 		}
 		catch (NullOrEmptyArgumentException e)
 		{
@@ -68,7 +68,7 @@ public class OuvrageController
 		try
 		{
 			 Ouvrage ouvrage = ouvrageService.consulterOuvrage(ouvrageId);
-			 return new ResponseEntity<OuvrageDetail>(ouvrageAssembler.createOuvrageDetail(ouvrage), HttpStatus.OK);
+			 return new ResponseEntity<OuvrageDetail>(ouvrageAssembler.createDto(ouvrage), HttpStatus.OK);
 		}
 		catch (NullOrEmptyArgumentException | RequiredAndNotFoundException e)
 		{
