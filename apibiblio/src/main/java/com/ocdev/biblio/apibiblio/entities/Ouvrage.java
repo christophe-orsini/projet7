@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 /**
  * Classe modèle pour un ouvrage
+ * 
  * @author C.Orsini
  *
  */
@@ -23,38 +24,32 @@ public class Ouvrage implements Serializable
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Column(nullable = false)
 	private String titre;
-
 	@Column(nullable = true)
 	private String resume;
-
 	@Column(nullable = false)
 	private String auteur;
-
 	@Column(nullable = false)
-	private int anneeParution;
-
+	private int anneeEdition;
 	@Column(nullable = true)
 	private int nbreExemplaire;
-
 	@ManyToOne
 	@JoinColumn(name = "theme_id")
-	//@JsonManagedReference
 	private Theme theme;
-
 	@OneToMany(mappedBy = "ouvrage", fetch = FetchType.EAGER)
 	private Collection<Pret> prets;
 
-	public Ouvrage() {}
+	public Ouvrage()
+	{
+	}
 
 	public Ouvrage(String titre, String auteur, int annee, Theme theme)
 	{
 		super();
 		this.titre = titre;
 		this.auteur = auteur;
-		this.anneeParution = annee;
+		this.anneeEdition = annee;
 		this.theme = theme;
 	}
 
@@ -98,14 +93,14 @@ public class Ouvrage implements Serializable
 		this.auteur = auteur;
 	}
 
-	public int getAnneeParution()
+	public int getAnneeEdition()
 	{
-		return anneeParution;
+		return anneeEdition;
 	}
 
-	public void setAnneeParution(int anneeParution)
+	public void setAnneeEdition(int anneeEdition)
 	{
-		this.anneeParution = anneeParution;
+		this.anneeEdition = anneeEdition;
 	}
 
 	public int getNbreExemplaire()

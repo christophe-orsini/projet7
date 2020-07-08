@@ -40,7 +40,7 @@ public class Pret implements Serializable
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Statut statut = Statut.RESERVE;
+	private Statut statut;
 
 	@JoinColumn(name = "abonne_id")
 	@ManyToOne

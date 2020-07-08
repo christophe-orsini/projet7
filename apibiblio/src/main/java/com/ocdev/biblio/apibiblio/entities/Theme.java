@@ -26,7 +26,6 @@ public class Theme implements Serializable
 	private String nom;
 
 	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY)
-	//@JsonBackReference
 	private Collection<Ouvrage> ouvrages;
 
 	public Theme()
@@ -60,12 +59,12 @@ public class Theme implements Serializable
 		this.nom = nom;
 	}
 
-	public Collection<Ouvrage> getOuvrages()
+		public Collection<Ouvrage> getOuvrages()
 	{
 		return ouvrages;
 	}
 
-	public void setOuvrages(Collection<Ouvrage> ouvrages)
+		public void setOuvrages(Collection<Ouvrage> ouvrages)
 	{
 		this.ouvrages = ouvrages;
 	}
