@@ -1,39 +1,54 @@
 package com.ocdev.biblio.apibiblio.errors;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.http.HttpHeaders;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+class ErrorHandlingControllerAdvice
+{
+	@ExceptionHandler(ConstraintViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	ValidationErrorResponse onConstraintValidationException(ConstraintViolationException e)
+	{
+		ValidationErrorResponse error = new ValidationErrorResponse();
+		for (ConstraintViolation<?> violation : e.getConstraintViolations())
+		{
+			error.getViolations().add(new Violation(violation.getPropertyPath().toString(), violation.getMessage()));
+		}
+		return error;
+	}
 
-    // error handle for @Valid
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request)
-    {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", new Date());
-        body.put("status", status.value());
-
-        //Get all errors
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(x -> x.getDefaultMessage())
-                .collect(Collectors.toList());
-
-        body.put("errors", errors);
-
-        return new ResponseEntity<>(body, headers, status);
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	ValidationErrorResponse onMethodArgumentNotValidException(MethodArgumentNotValidException e) 
+	{
+		ValidationErrorResponse error = new ValidationErrorResponse();
+		for (FieldError fieldError : e.getBindingResult().getFieldErrors())
+		{
+			error.getViolations().add(new Violation(fieldError.getField(), fieldError.getDefaultMessage()));
+		}
+		return error;
     }
+	
+	@ExceptionHandler(AlreadyExistsException.class)
+	@ResponseStatus(HttpStatus.CONFLICT)
+	@ResponseBody
+	ValidationErrorResponse onAlreadyExistsException(AlreadyExistsException e)
+	{
+		ValidationErrorResponse error = new ValidationErrorResponse();
+		
+		error.getViolations().add(new Violation(e.getFieldName(), e.getMessage()));
+		
+		return error;
+	}
+
 }
