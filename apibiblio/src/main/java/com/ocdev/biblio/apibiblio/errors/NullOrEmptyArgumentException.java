@@ -1,4 +1,4 @@
-package com.ocdev.biblio.apibiblio.exceptions;
+package com.ocdev.biblio.apibiblio.errors;
 
 /**
  * Classe exception pour argument null ou vide.
@@ -7,19 +7,8 @@ package com.ocdev.biblio.apibiblio.exceptions;
  */
 public class NullOrEmptyArgumentException extends BiblioException
 {
-
-	public NullOrEmptyArgumentException()
-	{
-		super();
-	}
-
 	public NullOrEmptyArgumentException(String message)
 	{
 		super(message);
-	}
-	
-	public NullOrEmptyArgumentException(String message, Throwable cause)
-	{
-		super(message, cause);
 	}
 }
