@@ -35,7 +35,7 @@ public class OuvrageServiceImpl implements OuvrageService
 		{
 			// un ouvrage avec ce titre existe déjà
 			// log
-			throw new AlreadyExistsException("Un ouvrage avec ce titre existe déjà");
+			throw new AlreadyExistsException("titre", "Un ouvrage avec ce titre existe déjà");
 		}
 		
 		Ouvrage ouvrage = ouvrageConverter.convertDtoToEntity(ouvrageDto);

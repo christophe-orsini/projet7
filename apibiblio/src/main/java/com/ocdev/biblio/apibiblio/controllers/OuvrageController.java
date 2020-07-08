@@ -2,9 +2,13 @@ package com.ocdev.biblio.apibiblio.controllers;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,38 +23,23 @@ import com.ocdev.biblio.apibiblio.services.OuvrageService;
 
 @RestController
 @RequestMapping("/api/v1/*")
+@Validated
 public class OuvrageController
 {
 	@Autowired private OuvrageService ouvrageService;
 	
 	@PostMapping(value ="/ouvrages")
-	public ResponseEntity<OuvrageDto> ajouterOuvrage(@RequestBody final OuvrageDto ouvrageDto)
+	public ResponseEntity<OuvrageDto> ajouterOuvrage(@Valid @RequestBody final OuvrageDto ouvrageDto) throws AlreadyExistsException
 	{
-		OuvrageDto result = null;
-		try
-		{
-			result = ouvrageService.creer(ouvrageDto);
-		}
-		catch (AlreadyExistsException e)
-		{
-			return new ResponseEntity<OuvrageDto>(HttpStatus.NO_CONTENT);
-		}
-		
+		OuvrageDto result = ouvrageService.creer(ouvrageDto);
 		return new ResponseEntity<OuvrageDto>(result, HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/ouvrages/{ouvrageId}")
-	public ResponseEntity<OuvrageDto> getOuvrageById(@PathVariable final long ouvrageId)
+	public ResponseEntity<OuvrageDto> getOuvrageById(@PathVariable @Min(1) final long ouvrageId) throws EntityNotFoundException
 	{
-		try
-		{
-			 OuvrageDto ouvrageDto = ouvrageService.consulterOuvrage(ouvrageId);
-			 return new ResponseEntity<OuvrageDto>(ouvrageDto, HttpStatus.OK);
-		}
-		catch (EntityNotFoundException e)
-		{
-			return new ResponseEntity<OuvrageDto>(HttpStatus.NOT_FOUND);
-		}
+		OuvrageDto ouvrageDto = ouvrageService.consulterOuvrage(ouvrageId);
+		return ResponseEntity.ok(ouvrageDto);
 	}
 	
 	@GetMapping(value = "/ouvrages")

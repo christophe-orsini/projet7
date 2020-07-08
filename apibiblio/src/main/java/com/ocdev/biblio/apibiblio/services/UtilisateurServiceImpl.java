@@ -22,7 +22,7 @@ public class UtilisateurServiceImpl implements UtilisateurService
 		{
 			// un utilisateur avec cet email existe déjà
 			// log
-			throw new AlreadyExistsException("Un utilisateur avec cet email existe déjà");
+			throw new AlreadyExistsException("email", "Un utilisateur avec cet email existe déjà");
 		}
 		
 		Utilisateur utilisateur = utilisateurConverter.convertDtoToEntity(utilisateurDto);
