@@ -28,7 +28,7 @@ public class SwaggerConfig
     
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "REST API des bibliothèques de Bouquiville", //title
+                "REST API des bibliothèques de Bouquinville", //title
                 "Mise à disposition d'endpoints pour la gestion des prêts des bibliothèques", //description
                 "Version 1.0", //version
                 "Conditions d'utilisation", //terms of service URL

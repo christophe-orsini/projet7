@@ -15,6 +15,6 @@ import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 @Repository
 public interface OuvrageRepository extends JpaRepository<Ouvrage, Long>
 {
-	Optional<Ouvrage> findByTitreContainingIgnoreCase(String titre);
+	Optional<Ouvrage> findByTitreIgnoreCase(String titre);
 	
 }

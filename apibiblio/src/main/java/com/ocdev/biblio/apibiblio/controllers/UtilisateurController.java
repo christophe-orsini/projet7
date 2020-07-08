@@ -1,5 +1,7 @@
 package com.ocdev.biblio.apibiblio.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,35 +9,38 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.ocdev.biblio.apibiblio.assemblers.UtilisateurAssembler;
-import com.ocdev.biblio.apibiblio.dto.UtilisateurDetail;
-import com.ocdev.biblio.apibiblio.entities.Utilisateur;
-import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
+import com.ocdev.biblio.apibiblio.dto.UtilisateurDto;
+import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.services.UtilisateurService;
+import com.ocdev.biblio.apibiblio.utils.Tools;
 
 @RestController
 @RequestMapping("/api/v1/*")
 public class UtilisateurController
 {
 	@Autowired UtilisateurService utilisateurService;
-	@Autowired UtilisateurAssembler utilisateurAssembler;
+	
 	
 	@PostMapping(value = "/utilisateurs")
-	public ResponseEntity<UtilisateurDetail> creerUtilisateur(@RequestBody final UtilisateurDetail utilisateurDetail)
+	public ResponseEntity<UtilisateurDto> inscrire(@Valid @RequestBody final UtilisateurDto utilisateurDto)
 	{
-			UtilisateurDetail newUtilisateur = null;
+		// verifier les entrées
+		if (Tools.stringIsNullOrEmpty(utilisateurDto.getEmail()) || Tools.stringIsNullOrEmpty(utilisateurDto.getPassword()) ||
+				Tools.stringIsNullOrEmpty(utilisateurDto.getNom()))
+		{
+			return new ResponseEntity<UtilisateurDto>(HttpStatus.BAD_REQUEST);
+		}
 		
+		UtilisateurDto result = null;
 		try
 		{
-			Utilisateur utilisateur = utilisateurService.inscrire(utilisateurDetail.getEmail(), utilisateurDetail.getPassword(),
-					utilisateurDetail.getNom(), utilisateurDetail.getPrenom());
-			newUtilisateur = utilisateurAssembler.createDto(utilisateur);
+			result = utilisateurService.creer(utilisateurDto);
 		}
-		catch (NullOrEmptyArgumentException e)
+		catch (AlreadyExistsException e)
 		{
-			return new ResponseEntity<UtilisateurDetail>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<UtilisateurDto>(HttpStatus.NO_CONTENT);
 		}
 		
-		return new ResponseEntity<UtilisateurDetail>(newUtilisateur, HttpStatus.CREATED);
+		return new ResponseEntity<UtilisateurDto>(result, HttpStatus.CREATED);	
 	}
 }

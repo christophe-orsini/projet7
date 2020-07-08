@@ -1,9 +1,9 @@
 package com.ocdev.biblio.apibiblio.services;
 
 import java.util.Collection;
-import com.ocdev.biblio.apibiblio.entities.Ouvrage;
-import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
-import com.ocdev.biblio.apibiblio.exceptions.RequiredAndNotFoundException;
+import com.ocdev.biblio.apibiblio.dto.OuvrageDto;
+import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
+import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
 
 /**
  * Interface de déclaration des services pour les ouvrages
@@ -12,29 +12,24 @@ import com.ocdev.biblio.apibiblio.exceptions.RequiredAndNotFoundException;
 public interface OuvrageService
 {
 	/**
-	 * Méthode permettant d'ajouter ou de mettre à jour un ouvrage.
-	 * @param titre Le titre de l'ouvrage
-	 * @param resume Le résumé de l'ouvrage
-	 * @param auteur L'auteur de l'ouvrage
-	 * @param anneePublication L'année de publication
-	 * @param theme Le {@link com.ocdev.biblio.apibiblio.entities.Theme} de l'ouvrage
-	 * @param qte Nombre d'exemplaires disponibles
-	 * @return L'ouvrage nouvellement créé ou mis à jour
-	 * @throws NullOrEmptyArgumentException levée si un argument est null ou vide
+	 * Méthode permettant d'ajouter .
+	 * @param ouvrageDto Le DTO de l'ouvrage à créer
+	 * @return Le DTO de l'ouvrage créé
+	 * @throws AlreadyExistsException levée si le titre existe déjà
 	 */
-	public Ouvrage ajouterOuChanger(String titre, String resume, String auteur, int anneePublication, String theme, int qte) throws NullOrEmptyArgumentException;
+	public OuvrageDto creer(OuvrageDto ouvrageDto) throws AlreadyExistsException;
 	/**
 	 * Méthode permettant de rechercher des ouvrages en fonction de critères.
 	 * @param critere Critère de recherche
-	 * @return Une collection des ouvrages trouvés (peut être vide)
+	 * @return Une collection des DTOs d'ouvrages trouvés (peut être vide)
 	 */
-	public Collection<Ouvrage> rechercherOuvrages(String critere);
+	public Collection<OuvrageDto> rechercherOuvrages(String critere);
 	/**
 	 * Méthode permettant d'obtenir les détails d'un ouvrage.
 	 * 
 	 * @param id L'id de l'ouvrage
-	 * @return L'ouvrage trouvé
-	 * @throws RequiredAndNotFoundException levée si l'id n'existe pas
+	 * @return Le DTO de l'ouvrage trouvé
+	 * @throws EntityNotFoundException levée si l'id n'existe pas
 	 */
-	public Ouvrage consulterOuvrage(Long id) throws RequiredAndNotFoundException;
+	public OuvrageDto consulterOuvrage(Long id) throws EntityNotFoundException;
 }
