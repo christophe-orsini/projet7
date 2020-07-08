@@ -1,18 +1,32 @@
 package com.ocdev.biblio.apibiblio.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
-public class UtilisateurDetail
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+public class UtilisateurDto implements Serializable
 {
-	@NotEmpty(message="L'email est obligatoire")
+	private Long Id;
+	@NotBlank(message="L'email est obligatoire")
 	@Email(message="L'adresse email n'est pas bien formée")
 	private String email; // login
-	@NotEmpty(message="Le mot de passe est obligatoire")
+	@NotBlank(message="Le mot de passe est obligatoire")
+	@Size(min = 4, message = "Le mot de passe doit avoir au moins 4 caratères")
 	private String password;
-	@NotEmpty(message="Le nom est obligatoire")
+	@NotBlank(message="Le nom est obligatoire")
 	private String nom;
 	private String prenom;
+	
+	public Long getId()
+	{
+		return Id;
+	}
+	public void setId(Long id)
+	{
+		Id = id;
+	}
 	public String getEmail()
 	{
 		return email;
