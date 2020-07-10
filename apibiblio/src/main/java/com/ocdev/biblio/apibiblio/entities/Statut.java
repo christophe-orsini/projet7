@@ -1,5 +1,7 @@
 package com.ocdev.biblio.apibiblio.entities;
 
+import com.ocdev.biblio.apibiblio.utils.Tools;
+
 /**
 * Enum pour le statut d'un prêt.
 * @author C.Orsini
@@ -7,6 +9,7 @@ package com.ocdev.biblio.apibiblio.entities;
 */
 public enum Statut
 {
+	INCONNU ("Inconnu"),
 	RESERVE ("Réservé"),
 	EN_COURS ("En cours"),
 	PROLONGE ("Prolongé"),
@@ -28,5 +31,26 @@ public enum Statut
 	public void setLibelle(String libelle)
 	{
 		this.libelle = libelle;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return libelle;
+	}
+	
+	public static Statut convert(String statut)
+	{
+		if (Tools.stringIsNullOrEmpty(statut)) return INCONNU;
+		
+		switch(statut)
+		{
+			case "Réservé": return RESERVE;
+			case "En cours": return EN_COURS;
+			case "Prolongé": return PROLONGE;
+			case "En retard": return RETARD;
+			case "Retourné": return RETOURNE;
+			default:return INCONNU;
+		}
 	}
 }
