@@ -39,16 +39,22 @@ class ErrorHandlingControllerAdvice
 		return error;
     }
 	
-	@ExceptionHandler(AlreadyExistsException.class)
+	@ExceptionHandler({BiblioException.class, AlreadyExistsException.class, DuplicateLoanException.class,
+		DelayLoanException.class, NotEnoughCopiesException.class})
 	@ResponseStatus(HttpStatus.CONFLICT)
 	@ResponseBody
-	ValidationErrorResponse onAlreadyExistsException(AlreadyExistsException e)
+	ValidationErrorResponse onBiblioException(BiblioException e)
 	{
 		ValidationErrorResponse error = new ValidationErrorResponse();
-		
-		error.getViolations().add(new Violation(e.getFieldName(), e.getMessage()));
-		
+		error.getViolations().add(new Violation(null, e.getMessage()));
 		return error;
 	}
-
+	
+	@ExceptionHandler(EntityNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseBody
+	String onEntityNotFoundException(EntityNotFoundException e)
+	{
+		return e.getMessage();
+	}
 }
