@@ -3,6 +3,7 @@ package com.ocdev.biblio.apibiblio.errors;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,22 +40,48 @@ class ErrorHandlingControllerAdvice
 		return error;
     }
 	
-	@ExceptionHandler({BiblioException.class, AlreadyExistsException.class, DuplicateLoanException.class,
-		DelayLoanException.class, NotEnoughCopiesException.class})
-	@ResponseStatus(HttpStatus.CONFLICT)
+	@ExceptionHandler(AlreadyExistsException.class)
 	@ResponseBody
-	ValidationErrorResponse onBiblioException(BiblioException e)
+	ResponseEntity<ErrorMessage> onAlreadyExistsException(AlreadyExistsException e)
 	{
-		ValidationErrorResponse error = new ValidationErrorResponse();
-		error.getViolations().add(new Violation(null, e.getMessage()));
-		return error;
+		BiblioHttpStatus status = BiblioHttpStatus.BIBLIO_DUPLICATE;
+		ErrorMessage error = new ErrorMessage(status.getCode(), status.getName(), e.getMessage());
+		return ResponseEntity.status(status.getCode()).body(error);
+	}
+	
+	@ExceptionHandler(DelayLoanException.class)
+	@ResponseBody
+	ResponseEntity<ErrorMessage> onDelayLoanException(DelayLoanException e)
+	{
+		BiblioHttpStatus status = BiblioHttpStatus.BIBLIO_UNABLE;
+		ErrorMessage error = new ErrorMessage(status.getCode(), status.getName(), e.getMessage());
+		return ResponseEntity.status(status.getCode()).body(error);
+	}
+	
+	@ExceptionHandler(NotEnoughCopiesException.class)
+	@ResponseBody
+	ResponseEntity<ErrorMessage> onNotEnoughCopiesException(NotEnoughCopiesException e)
+	{
+		BiblioHttpStatus status = BiblioHttpStatus.BIBLIO_NOT_ENOUGH;
+		ErrorMessage error = new ErrorMessage(status.getCode(), status.getName(), e.getMessage());
+		return ResponseEntity.status(status.getCode()).body(error);
+	}
+	
+	@ExceptionHandler(NotAllowedException.class)
+	@ResponseBody
+	ResponseEntity<ErrorMessage> onNotAllowedException(NotAllowedException e)
+	{
+		BiblioHttpStatus status = BiblioHttpStatus.BIBLIO_NOT_ALLOWED;
+		ErrorMessage error = new ErrorMessage(status.getCode(), status.getName(), e.getMessage());
+		return ResponseEntity.status(status.getCode()).body(error);
 	}
 	
 	@ExceptionHandler(EntityNotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
-	String onEntityNotFoundException(EntityNotFoundException e)
+	ResponseEntity<ErrorMessage> onEntityNotFoundException(EntityNotFoundException e)
 	{
-		return e.getMessage();
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		ErrorMessage error = new ErrorMessage(status.value(), status.getReasonPhrase(), e.getMessage());
+		return ResponseEntity.status(status.value()).body(error);
 	}
 }

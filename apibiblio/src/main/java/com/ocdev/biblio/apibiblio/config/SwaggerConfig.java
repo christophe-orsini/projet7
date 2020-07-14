@@ -19,10 +19,10 @@ public class SwaggerConfig
     public Docket api()
     {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        		.useDefaultResponseMessages(false)
                 .select()
                 .paths(PathSelectors.ant("/api/**"))
                 .apis(RequestHandlerSelectors.basePackage("com.ocdev.biblio.apibiblio.controllers"))
-                
                 .build().
                 apiInfo(apiInfo());
         

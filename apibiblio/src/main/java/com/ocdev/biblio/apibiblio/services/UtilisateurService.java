@@ -14,7 +14,7 @@ public interface UtilisateurService
 	 * Méthode de création d'un utilisateur.
 	 * @param utilisateurDto Le DTO de l'utilisateur à créer
 	 * @return L'utilisateur créé
-	 * @throws AlreadyExistsException
+	 * @throws AlreadyExistsException levée si un utilisateur avec le même email (login) existe déjà
 	 */
 	public Utilisateur creer(UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException;
 	

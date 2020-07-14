@@ -22,7 +22,7 @@ public interface PretService
 	 * @throws EntityNotFoundException levée si l'ouvrage ou l'abonné n'existent pas
 	 * @throws NotEnoughCopiesException levée s'il n'y a pas assez d'exemplaires pour preter l'ouvrage
 	 */
-	public Pret creer(Long abonneId, Long ouvrageID) throws AlreadyExistsException, EntityNotFoundException, NotEnoughCopiesException;
+	public Pret creer(Long abonneId, Long ouvrageId) throws AlreadyExistsException, EntityNotFoundException, NotEnoughCopiesException;
 	/**
 	 * Retour d'un prêt
 	 * @param pretId L'ID du prêt
@@ -34,7 +34,7 @@ public interface PretService
 	 * @param pretId L'ID du prêt
 	 * @return Le prêt modifié
 	 * @throws EntityNotFoundException levée si le prêt n'existe pas
-	 * @throws DelayLoanException 
+	 * @throws DelayLoanException levée si le prêt ne peut plus être prolongé
 	 */
 	public Pret prolonger(Long pretId) throws EntityNotFoundException, DelayLoanException;
 	/**
