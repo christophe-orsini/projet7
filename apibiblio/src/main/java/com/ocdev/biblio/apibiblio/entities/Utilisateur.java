@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Classe modèle pour un utilisateur
  * @author C.Orsini
@@ -35,6 +37,7 @@ public class Utilisateur implements Serializable
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
+	@JsonIgnore
 	@OneToMany(mappedBy = "abonne", fetch = FetchType.EAGER)
 	private Collection<Pret> prets;
 

@@ -7,9 +7,9 @@ import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
+import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
 import com.ocdev.biblio.apibiblio.dao.OuvrageRepository;
-import com.ocdev.biblio.apibiblio.dao.ThemeRepository;
-import com.ocdev.biblio.apibiblio.dto.OuvrageDto;
+import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
@@ -24,47 +24,39 @@ import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
 public class OuvrageServiceImpl implements OuvrageService
 {
 	@Autowired private OuvrageRepository ouvrageRepository;
-	@Autowired private ThemeRepository themeRepository;
-	@Autowired private IDtoConverter<Ouvrage, OuvrageDto> ouvrageConverter;
+	@Autowired private IDtoConverter<Ouvrage, OuvrageCreateDto> ouvrageConverter;
 	
 	@Override
 	@Transactional
-	public OuvrageDto creer(OuvrageDto ouvrageDto) throws AlreadyExistsException
+	public Ouvrage creer(OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException
 	{
-		if (ouvrageRepository.findByTitreIgnoreCase(ouvrageDto.getTitre()).isPresent())
+		Optional<Ouvrage> ouvrageExists = ouvrageRepository.findByTitreIgnoreCase(ouvrageCreateDto.getTitre());
+		if (ouvrageExists.isPresent())
 		{
 			// un ouvrage avec ce titre existe déjà
 			// log
-			throw new AlreadyExistsException("Un ouvrage avec le titre '" + ouvrageDto.getTitre() + "' existe déjà");
+			throw new AlreadyExistsException("Un ouvrage avec le même titre existe déjà");
 		}
 		
-		Ouvrage ouvrage = ouvrageConverter.convertDtoToEntity(ouvrageDto);
-		
-		if (!themeRepository.findByNomIgnoreCase(ouvrage.getTheme().getNom()).isPresent())
-		{
-			// log
-			themeRepository.save(ouvrage.getTheme());
-		}
+		Ouvrage ouvrage = ouvrageConverter.convertDtoToEntity(ouvrageCreateDto);
 		
 		// log
-		ouvrage = ouvrageRepository.save(ouvrage);
-		
-		return ouvrageConverter.convertEntityToDto(ouvrage);
+		return ouvrageRepository.save(ouvrage);
 	}
 
 	@Override
-	public Collection<OuvrageDto> rechercherOuvrages(String critere)
+	public Collection<Ouvrage> rechercherOuvrages(OuvrageCriteria critere)
 	{
 		// TODO Auto-generated method stub
 		throw new NotYetImplementedException();
 	}
 
 	@Override
-	public OuvrageDto consulterOuvrage(Long id) throws EntityNotFoundException
+	public Ouvrage consulterOuvrage(Long id) throws EntityNotFoundException
 	{
 		Optional<Ouvrage> ouvrage = ouvrageRepository.findById(id);
-		if (!ouvrage.isPresent()) throw new EntityNotFoundException("L'ouvrage avec l'ID " + id + " n'existe pas");
+		if (!ouvrage.isPresent()) throw new EntityNotFoundException("L'ouvrage n'existe pas");
 		
-		return ouvrageConverter.convertEntityToDto(ouvrage.get());
+		return ouvrage.get();
 	}
 }

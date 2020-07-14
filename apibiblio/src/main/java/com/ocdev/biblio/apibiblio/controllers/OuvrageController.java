@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
+import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.dto.OuvrageDto;
+import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
 import com.ocdev.biblio.apibiblio.services.OuvrageService;
@@ -39,10 +43,10 @@ public class OuvrageController
 			@ApiResponse(code = 409, message = "Un ouvrage avec le même titre existe déjà")
 			})
 	@PostMapping(value ="/ouvrages")
-	public ResponseEntity<OuvrageDto> ajouterOuvrage(@Valid @RequestBody final OuvrageDto ouvrageDto) throws AlreadyExistsException
+	public ResponseEntity<Ouvrage> ajouterOuvrage(@Valid @RequestBody final OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException
 	{
-		OuvrageDto result = ouvrageService.creer(ouvrageDto);
-		return new ResponseEntity<OuvrageDto>(result, HttpStatus.CREATED);
+		Ouvrage result = ouvrageService.creer(ouvrageCreateDto);
+		return new ResponseEntity<Ouvrage>(result, HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Consultation d'un ouvrage", notes = "Obtenir les détails d'un ouvrage")
@@ -51,11 +55,11 @@ public class OuvrageController
 			@ApiResponse(code = 404, message = "L'ouvrage avec cet ID n'existe pas")
 			})
 	@GetMapping(value = "/ouvrages/{ouvrageId}")
-	public ResponseEntity<OuvrageDto> getOuvrageById(@ApiParam(value="ID de l'ouvrage", required = true, example = "1")
+	public ResponseEntity<Ouvrage> getOuvrageById(@ApiParam(value="ID de l'ouvrage", required = true, example = "1")
 			@PathVariable @Min(1) final long ouvrageId) throws EntityNotFoundException
 	{
-		OuvrageDto ouvrageDto = ouvrageService.consulterOuvrage(ouvrageId);
-		return ResponseEntity.ok(ouvrageDto);
+		Ouvrage ouvrage = ouvrageService.consulterOuvrage(ouvrageId);
+		return new ResponseEntity<Ouvrage>(ouvrage, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Recherche d'ouvrages", notes = "Obtenir une liste d'ouvrages correspondant à plusieurs critères de recherche")
@@ -63,9 +67,9 @@ public class OuvrageController
 			@ApiResponse(code = 200, message = "La liste des ouvrages est retourné dans le corps de la réponse")
 			})
 	@GetMapping(value = "/ouvrages")
-	public ResponseEntity<Collection<OuvrageDto>> rechercherOuvrages(@RequestBody final OuvrageDto ouvrageDto, 
+	public ResponseEntity<Collection<Ouvrage>> rechercherOuvrages(@RequestBody final OuvrageCriteria ouvrageCriteria, 
 			@RequestParam(required = false, defaultValue = "0") int page)
 	{
-		return new ResponseEntity<Collection<OuvrageDto>>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Collection<Ouvrage>>(HttpStatus.NOT_FOUND);
 	}
 }

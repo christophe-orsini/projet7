@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Classe modèle pour un thème
@@ -25,8 +26,9 @@ public class Theme implements Serializable
 	@Column(nullable = false)
 	private String nom;
 
-	@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY)
-	private Collection<Ouvrage> ouvrages;
+	//@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY)
+	//@JsonIgnore
+	//private Collection<Ouvrage> ouvrages;
 
 	public Theme()
 	{
@@ -59,15 +61,15 @@ public class Theme implements Serializable
 		this.nom = nom;
 	}
 
-		public Collection<Ouvrage> getOuvrages()
-	{
-		return ouvrages;
-	}
-
-		public void setOuvrages(Collection<Ouvrage> ouvrages)
-	{
-		this.ouvrages = ouvrages;
-	}
+//		public Collection<Ouvrage> getOuvrages()
+//	{
+//		return ouvrages;
+//	}
+//
+//		public void setOuvrages(Collection<Ouvrage> ouvrages)
+//	{
+//		this.ouvrages = ouvrages;
+//	}
 
 	@Override
 	public String toString()
