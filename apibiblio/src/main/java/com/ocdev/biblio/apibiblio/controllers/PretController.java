@@ -15,6 +15,7 @@ import com.ocdev.biblio.apibiblio.entities.Pret;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.DelayLoanException;
 import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
+import com.ocdev.biblio.apibiblio.errors.NotAllowedException;
 import com.ocdev.biblio.apibiblio.errors.NotEnoughCopiesException;
 import com.ocdev.biblio.apibiblio.services.PretService;
 import io.swagger.annotations.ApiOperation;
@@ -48,14 +49,16 @@ public class PretController
 	@ApiOperation(value = "Retour d'un prêt", notes = "Retour d'un prêt")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Le retour du prêt est enregistré"),
-			@ApiResponse(code = 404, message = "Le prêt n'existe pas")
+			@ApiResponse(code = 404, message = "Le prêt n'existe pas"),
+			@ApiResponse(code = 469, message = "Seul l'emprunteur ou un employé peuvent retourner un prêt")
 			})
-	@PutMapping(value ="/prets/retour/{id}")
-	public ResponseEntity<String> retourPret(@ApiParam(value = "ID du prêt", required = true, example = "1")
-		@PathVariable @Min(1) final Long pretId) throws EntityNotFoundException
+	@PutMapping(value ="/prets/retour/{pretId}/utilisateur/{utilisateurId}")
+	public ResponseEntity<?> retourPret(@ApiParam(value = "ID du prêt", required = true, example = "1")
+		@PathVariable @Min(1) final Long pretId, @ApiParam(value = "ID du demandeur", required = true, example = "1")
+		@PathVariable @Min(1) final Long utilisateurId) throws EntityNotFoundException, NotAllowedException
 	{
-		pretService.retournerOuvrage(pretId);
-		return new ResponseEntity<String>("Retour OK", HttpStatus.OK);
+		pretService.retournerOuvrage(pretId, utilisateurId);
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 	
 	@ApiOperation(value = "Liste des prêts", notes = "Obtenir la liste des prêts pour un abonné")
@@ -75,14 +78,15 @@ public class PretController
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "La prolongation du prêt est enregistrée"),
 			@ApiResponse(code = 404, message = "Le prêt n'existe pas"),
-			@ApiResponse(code = 461, message = "Le prêt ne peut plus être prolongé")
+			@ApiResponse(code = 461, message = "Le prêt ne peut plus être prolongé"),
+			@ApiResponse(code = 469, message = "Seul l'emprunteur ou un employé peuvent prolonger un prêt")
 			})
-	@PutMapping(value ="/prets/prolonge/{pretId}/abonne/{abonneId}")
-	public ResponseEntity<Pret> prolongePret(@ApiParam(value = "ID du prêt", required = true, example = "1") @PathVariable @Min(1) final Long pretId,
-			@ApiParam(value = "ID de l'abonné", required = true, example = "1") @PathVariable @Min(1) final Long abonneId)
-			throws EntityNotFoundException, DelayLoanException
+	@PutMapping(value ="/prets/prolonge/{pretId}/utilisateur/{utilisateurId}")
+	public ResponseEntity<Pret> prolongePret(@ApiParam(value = "ID du prêt", required = true, example = "1")
+		@PathVariable @Min(1) final Long pretId, @ApiParam(value = "ID du demandeur", required = true, example = "1")
+		@PathVariable @Min(1) final Long utilisateurId)	throws EntityNotFoundException, DelayLoanException, NotAllowedException
 	{
-		Pret result = pretService.prolonger(pretId);
+		Pret result = pretService.prolonger(pretId, utilisateurId);
 		return new ResponseEntity<Pret>(result, HttpStatus.OK);
 	}
 }

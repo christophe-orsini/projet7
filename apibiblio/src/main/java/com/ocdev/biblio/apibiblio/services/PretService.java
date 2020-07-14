@@ -5,6 +5,7 @@ import com.ocdev.biblio.apibiblio.entities.Pret;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.DelayLoanException;
 import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
+import com.ocdev.biblio.apibiblio.errors.NotAllowedException;
 import com.ocdev.biblio.apibiblio.errors.NotEnoughCopiesException;
 
 /**
@@ -24,19 +25,23 @@ public interface PretService
 	 */
 	public Pret creer(Long abonneId, Long ouvrageId) throws AlreadyExistsException, EntityNotFoundException, NotEnoughCopiesException;
 	/**
-	 * Retour d'un prêt
+	 * Retour d'un prêt.
 	 * @param pretId L'ID du prêt
+	 * @param utilisateurId L'ID du demandeur
 	 * @throws EntityNotFoundException levée si le prêt n'existe pas
+	 * @throws NotAllowedException levée si la demande ne vient pas de l'emprunteur ou d'un employé
 	 */
-	public void retournerOuvrage(Long pretId) throws EntityNotFoundException;
+	public void retournerOuvrage(Long pretId, Long utilisateurId) throws EntityNotFoundException, NotAllowedException;
 	/**
 	 * Permet de prolonger un prêt
 	 * @param pretId L'ID du prêt
+	 * @param utilisateurId L'ID de l'utilisateur demandeur de la prolongation
 	 * @return Le prêt modifié
 	 * @throws EntityNotFoundException levée si le prêt n'existe pas
 	 * @throws DelayLoanException levée si le prêt ne peut plus être prolongé
+	 * @throws NotAllowedException levée si la demande ne vient pas de l'emprunteur ou d'un employé
 	 */
-	public Pret prolonger(Long pretId) throws EntityNotFoundException, DelayLoanException;
+	public Pret prolonger(Long pretId, Long utilisateurId) throws EntityNotFoundException, DelayLoanException, NotAllowedException;
 	/**
 	 * Retoune la liste des prêts d'un abonné
 	 * @param abonneId L'ID de l'abonné

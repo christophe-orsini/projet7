@@ -14,11 +14,13 @@ import com.ocdev.biblio.apibiblio.dao.UtilisateurRepository;
 import com.ocdev.biblio.apibiblio.dto.PretDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.entities.Pret;
+import com.ocdev.biblio.apibiblio.entities.Role;
 import com.ocdev.biblio.apibiblio.entities.Statut;
 import com.ocdev.biblio.apibiblio.entities.Utilisateur;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.DelayLoanException;
 import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
+import com.ocdev.biblio.apibiblio.errors.NotAllowedException;
 import com.ocdev.biblio.apibiblio.errors.NotEnoughCopiesException;
 import com.ocdev.biblio.apibiblio.utils.AppSettings;
 
@@ -68,11 +70,19 @@ public class PretServiceImpl implements PretService
 	}
 
 	@Override
-	public void retournerOuvrage(Long pretId) throws EntityNotFoundException
+	public void retournerOuvrage(Long pretId, Long utilisateurId) throws EntityNotFoundException, NotAllowedException
 	{
 		Optional<Pret> pret = pretRepository.findById(pretId);
 		if (!pret.isPresent()) throw new EntityNotFoundException("Le prêt n'existe pas");
 		
+		// verifier si le pret n'est pas déja retourné
+		if (pret.get().getStatut() == Statut.RETOURNE) return;
+		
+		// verifier si le demandeur est l'emprunteur ou un employé
+		Utilisateur utilisateur = pret.get().getAbonne();
+		if (utilisateur.getRole() == Role.ROLE_ABONNE && utilisateur.getId() != utilisateurId)
+			throw new NotAllowedException("Vous ne pouvez pas retourner ce prêt");
+				
 		// mettre a jour le nombre d'exemplaires
 		Ouvrage ouvrage = pret.get().getOuvrage();
 		ouvrage.setNbreExemplaire(ouvrage.getNbreExemplaire() + 1);
@@ -87,19 +97,24 @@ public class PretServiceImpl implements PretService
 	}
 
 	@Override
-	public Pret prolonger(Long pretId) throws EntityNotFoundException, DelayLoanException
+	public Pret prolonger(Long pretId, Long utilisateurId) throws EntityNotFoundException, DelayLoanException, NotAllowedException
 	{
 		Optional<Pret> pret = pretRepository.findById(pretId);
-		if (!pret.isPresent()) throw new EntityNotFoundException("Le prêt avec l'ID " + pretId + " n'existe pas");
+		if (!pret.isPresent()) throw new EntityNotFoundException("Le prêt n'existe pas");
 		
 		// verifier si le pret a deja été prolongé
 		int nbProlongations = AppSettings.getIntSetting("nbre-prolongations");
-		if (nbProlongations <= pret.get().getNbreProlongations()) throw new DelayLoanException("Le prêt avec ne peut plus être prolongé");
+		if (nbProlongations <= pret.get().getNbreProlongations()) throw new DelayLoanException("Le prêt ne peut plus être prolongé");
+		
+		// verifier si le demandeur est l'emprunteur ou un employé
+		Utilisateur utilisateur = pret.get().getAbonne();
+		if (utilisateur.getRole() == Role.ROLE_ABONNE && utilisateur.getId() != utilisateurId)
+			throw new NotAllowedException("Vous ne pouvez pas prolonger ce prêt");
 		
 		// prolongation
 		Calendar c = Calendar.getInstance();
 		c.setTime(pret.get().getDateDebut());
-		c.add(Calendar.DAY_OF_MONTH, AppSettings.getIntSetting("duree-pret") * nbProlongations);
+		c.add(Calendar.DAY_OF_MONTH, AppSettings.getIntSetting("duree-pret") * ++nbProlongations);
 		Date nouvelleDateFin = c.getTime();
 		
 		// set nouvelle date de fin prevue

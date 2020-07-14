@@ -27,15 +27,15 @@ public class Pret implements Serializable
 	private Long id;
 
 	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dateDebut;
 
 	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dateFinPrevu;
 
 	@Column(nullable = true)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dateRetour;
 
 	@Column(nullable = false)

@@ -20,7 +20,7 @@ public class AppSettings
 	{
 		ResourceBundle prop = ResourceBundle.getBundle("config");
 		
-		String result =  prop.getString("connfig." + setting);
+		String result =  prop.getString("config." + setting);
 		
 		return result;
 	}
