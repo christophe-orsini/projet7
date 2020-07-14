@@ -42,6 +42,9 @@ public class Pret implements Serializable
 	@Enumerated(EnumType.STRING)
 	private Statut statut;
 
+	@Column(nullable = true)
+	private int nbreProlongations;
+	
 	@JoinColumn(name = "abonne_id")
 	@ManyToOne
 	private Utilisateur abonne;
@@ -56,10 +59,9 @@ public class Pret implements Serializable
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pret(Date dateDebut, Utilisateur abonne, Ouvrage ouvrage)
+	public Pret(Utilisateur abonne, Ouvrage ouvrage)
 	{
 		super();
-		this.dateDebut = dateDebut;
 		this.abonne = abonne;
 		this.ouvrage = ouvrage;
 	}
@@ -112,6 +114,16 @@ public class Pret implements Serializable
 	public void setStatut(Statut statut)
 	{
 		this.statut = statut;
+	}
+
+	public int getNbreProlongations()
+	{
+		return nbreProlongations;
+	}
+
+	public void setNbreProlongations(int nbreProlongations)
+	{
+		this.nbreProlongations = nbreProlongations;
 	}
 
 	public Utilisateur getAbonne()
