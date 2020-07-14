@@ -1,5 +1,7 @@
 package com.ocdev.biblio.apibiblio.services;
 
+import java.util.Collection;
+import com.ocdev.biblio.apibiblio.dto.ThemeCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Theme;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
@@ -16,7 +18,7 @@ public interface ThemeService
 	 * @return Le thème créé
 	 * @throws AlreadyExistsException levée si le thème existe déjà
 	 */
-	public Theme creer(String theme) throws AlreadyExistsException;
+	public Theme creer(ThemeCreateDto themeCreateDto) throws AlreadyExistsException;
 	
 	/**
 	 * Permet d'obtenir un thème.
@@ -32,4 +34,9 @@ public interface ThemeService
 	 * @throws EntityNotFoundException levée si le thème n'existe pas
 	 */
 	public Theme obtenir(String nom) throws EntityNotFoundException;
+	/**
+	 * Liste tous les thèmes
+	 * @return La liste (peut être vide)
+	 */
+	public Collection<Theme> listeThemes();
 }
