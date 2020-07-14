@@ -35,7 +35,7 @@ public class OuvrageController
 	@ApiOperation(value = "Ajout d'un ouvrage", notes = "Ajout d'un nouvel ouvrage")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "L'ouvrage est correctement créé"),
-			@ApiResponse(code = 409, message = "Un ouvrage avec le même titre existe déjà")
+			@ApiResponse(code = 460, message = "Un ouvrage avec le même titre existe déjà")
 			})
 	@PostMapping(value ="/ouvrages")
 	public ResponseEntity<Ouvrage> ajouterOuvrage(@Valid @RequestBody final OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException

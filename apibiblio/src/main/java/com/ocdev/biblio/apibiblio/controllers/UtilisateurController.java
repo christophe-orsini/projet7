@@ -25,7 +25,7 @@ public class UtilisateurController
 	@ApiOperation(value = "Inscription d'un utilisateur", notes = "Inscription d'un nouvel utilisateur de l'application")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "L'utilisateur est correctement inscrit"),
-			@ApiResponse(code = 409, message = "Un utilisateur avec le même email existe déjà")
+			@ApiResponse(code = 460, message = "Un utilisateur avec le même email existe déjà")
 			})
 	@PostMapping(value = "/utilisateurs")
 	public ResponseEntity<Utilisateur> inscrire(@Valid @RequestBody UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException
