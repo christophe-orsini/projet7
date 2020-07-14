@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Classe modèle pour un ouvrage
  * 
@@ -37,12 +39,11 @@ public class Ouvrage implements Serializable
 	@ManyToOne
 	@JoinColumn(name = "theme_id")
 	private Theme theme;
+	@JsonIgnore
 	@OneToMany(mappedBy = "ouvrage", fetch = FetchType.EAGER)
 	private Collection<Pret> prets;
 
-	public Ouvrage()
-	{
-	}
+	public Ouvrage(){}
 
 	public Ouvrage(String titre, String auteur, int annee, Theme theme)
 	{
