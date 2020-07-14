@@ -14,7 +14,7 @@ public interface ThemeService
 {
 	/**
 	 * Création d'un nouveau thème.
-	 * @param theme Le thème à créer
+	 * @param themeCreateDto Le thème à créer
 	 * @return Le thème créé
 	 * @throws AlreadyExistsException levée si le thème existe déjà
 	 */
@@ -29,7 +29,7 @@ public interface ThemeService
 	public Theme obtenir(Long id) throws EntityNotFoundException;
 	/**
 	 * Permet d'obtenir un thème.
-	 * @param id Le nom du thème
+	 * @param nom Le nom du thème
 	 * @return Le thème correspondant à l'ID
 	 * @throws EntityNotFoundException levée si le thème n'existe pas
 	 */

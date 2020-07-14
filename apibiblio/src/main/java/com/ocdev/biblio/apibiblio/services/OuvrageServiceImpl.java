@@ -2,7 +2,6 @@ package com.ocdev.biblio.apibiblio.services;
 
 import java.util.Collection;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,6 @@ import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
 
-/**
- * Classe d'implémentation des service pour les ouvrages
- * Cette classe utilise le repository {@link com.ocdev.biblio.apibiblio.dao.OuvrageRepository}
- * @author C.Orsini
- * @see com.ocdev.biblio.apibiblio.dao.OuvrageRepository
- */
 @Service
 public class OuvrageServiceImpl implements OuvrageService
 {
@@ -27,7 +20,7 @@ public class OuvrageServiceImpl implements OuvrageService
 	@Autowired private IDtoConverter<Ouvrage, OuvrageCreateDto> ouvrageConverter;
 	
 	@Override
-	@Transactional
+	// TODO javadoc @Transactional
 	public Ouvrage creer(OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException
 	{
 		Optional<Ouvrage> ouvrageExists = ouvrageRepository.findByTitreIgnoreCase(ouvrageCreateDto.getTitre());
