@@ -13,22 +13,6 @@ public class PretDtoConverter implements IDtoConverter<Pret, PretDto>
 {
 	@Autowired UtilisateurRepository utilisateurRepository;
 	@Autowired OuvrageRepository ouvrageRepository;
-	
-	@Override
-	public PretDto convertEntityToDto(Pret pret)
-	{
-		PretDto pretDto = new PretDto();
-		
-		pretDto.setId(pret.getId());
-		pretDto.setDateDebut(pret.getDateDebut());
-		pretDto.setDateFinPrevu(pret.getDateFinPrevu());
-		pretDto.setDateRetour(pret.getDateRetour());
-		pretDto.setStatut(pret.getStatut().toString());
-		pretDto.setAbonneId(pret.getAbonne().getId());
-		pretDto.setOuvrageId(pret.getOuvrage().getId());
-		
-		return pretDto;
-	}
 
 	@Override
 	public Pret convertDtoToEntity(PretDto pretDto)

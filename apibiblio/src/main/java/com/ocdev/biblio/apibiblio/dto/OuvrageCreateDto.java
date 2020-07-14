@@ -1,9 +1,7 @@
 package com.ocdev.biblio.apibiblio.dto;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import io.swagger.annotations.ApiModel;
@@ -12,22 +10,22 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "OuvrageCreateDto", description = "Modèle DTO pour la création d'un Ouvrage")
 public class OuvrageCreateDto implements Serializable
 {
-	@ApiModelProperty(position = 2, required = true, value = "Titre de l'ouvrage")
+	@ApiModelProperty(position = 1, required = true, value = "Titre de l'ouvrage")
 	@NotBlank(message="Le titre est obligatoire")
 	private String titre;
-	@ApiModelProperty(position = 3, required = false, value = "Résumé de l'ouvrage")
+	@ApiModelProperty(position = 2, required = false, value = "Résumé de l'ouvrage")
 	private String resume;
-	@ApiModelProperty(position = 4, required = true, value = "Auteur de l'ouvrage")
+	@ApiModelProperty(position = 3, required = true, value = "Auteur de l'ouvrage")
 	@NotBlank(message="L'auteur est obligatoire")
 	private String auteur;
-	@ApiModelProperty(position = 5, required = true, value = "Année de parution de l'ouvrage")
+	@ApiModelProperty(position = 4, required = true, value = "Année de parution de l'ouvrage")
 	@Positive(message="L'année de parution est obligatoire")
 	private int anneeEdition;
-	@ApiModelProperty(position = 6, required = false, value = "Nombre d'exemplaires disponibles pour prêt")
+	@ApiModelProperty(position = 5, required = false, value = "Nombre d'exemplaires disponibles pour prêt")
 	@PositiveOrZero(message = "Le nombre d'exemplaires ne peut pas être négatif")
 	private int nbreExemplaire;
-	@ApiModelProperty(position = 7, required = true, value = "Thème (catégorie) de l'ouvrage")
-	@NotNull(message="Le thème est obligatoire")
+	@ApiModelProperty(position = 6, required = true, value = "Thème (catégorie) de l'ouvrage")
+	@Positive(message="Le thème est obligatoire")
 	private Long theme;
 
 	public String getTitre()
