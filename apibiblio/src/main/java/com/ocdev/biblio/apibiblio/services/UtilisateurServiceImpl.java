@@ -1,10 +1,12 @@
 package com.ocdev.biblio.apibiblio.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
 import com.ocdev.biblio.apibiblio.dao.UtilisateurRepository;
-import com.ocdev.biblio.apibiblio.dto.UtilisateurDto;
+import com.ocdev.biblio.apibiblio.dto.UtilisateurCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Role;
 import com.ocdev.biblio.apibiblio.entities.Utilisateur;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -13,12 +15,13 @@ import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 public class UtilisateurServiceImpl implements UtilisateurService
 {
 	@Autowired private UtilisateurRepository utilisateurRepository;
-	@Autowired IDtoConverter<Utilisateur, UtilisateurDto> utilisateurConverter;
+	@Autowired IDtoConverter<Utilisateur, UtilisateurCreateDto> utilisateurConverter;
 	
 	@Override
-	public UtilisateurDto creer(UtilisateurDto utilisateurDto) throws AlreadyExistsException
+	public Utilisateur creer(UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException
 	{
-		if (utilisateurRepository.findByEmailIgnoreCase(utilisateurDto.getEmail()).isPresent())
+		Optional<Utilisateur> utilisateurExists = utilisateurRepository.findByEmailIgnoreCase(utilisateurDto.getEmail());
+		if (utilisateurExists.isPresent())
 		{
 			// un utilisateur avec cet email existe déjà
 			// log
@@ -29,8 +32,6 @@ public class UtilisateurServiceImpl implements UtilisateurService
 		utilisateur.setRole(Role.ROLE_ABONNE);
 		
 		// log
-		utilisateur = utilisateurRepository.save(utilisateur);
-		
-		return utilisateurConverter.convertEntityToDto(utilisateur);
+		return utilisateurRepository.save(utilisateur);
 	}
 }

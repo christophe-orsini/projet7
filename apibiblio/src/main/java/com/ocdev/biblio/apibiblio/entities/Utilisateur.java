@@ -28,6 +28,7 @@ public class Utilisateur implements Serializable
 	private Long id;
 	@Column(nullable = false)
 	private String email; // login
+	@JsonIgnore
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
