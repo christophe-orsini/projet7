@@ -60,6 +60,7 @@ public class PretServiceImpl implements PretService
 		
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
+		pret.setDateDebut(c.getTime());
 		c.add(Calendar.DAY_OF_MONTH, AppSettings.getIntSetting("duree-pret"));
 		pret.setDateFinPrevu(c.getTime());
 		
@@ -78,10 +79,14 @@ public class PretServiceImpl implements PretService
 		// verifier si le pret n'est pas déja retourné
 		if (pret.get().getStatut() == Statut.RETOURNE) return;
 		
+		// verifier si le demandeur existe
+		Optional<Utilisateur> demandeur = utilisateurRepository.findById(utilisateurId);
+		if (!demandeur.isPresent()) throw new EntityNotFoundException("Le demandeur n'existe pas");
+		
 		// verifier si le demandeur est l'emprunteur ou un employé
-		Utilisateur utilisateur = pret.get().getAbonne();
-		if (utilisateur.getRole() == Role.ROLE_ABONNE && utilisateur.getId() != utilisateurId)
-			throw new NotAllowedException("Vous ne pouvez pas retourner ce prêt");
+		Utilisateur emprunteur = pret.get().getAbonne();
+		if (demandeur.get().getRole() == Role.ROLE_ABONNE && demandeur.get().getId() != emprunteur.getId())
+			throw new NotAllowedException("Vous ne pouvez pas retourner ce prêt. Vous n'etes pas l'emprunteur");
 				
 		// mettre a jour le nombre d'exemplaires
 		Ouvrage ouvrage = pret.get().getOuvrage();
@@ -109,7 +114,7 @@ public class PretServiceImpl implements PretService
 		// verifier si le demandeur est l'emprunteur ou un employé
 		Utilisateur utilisateur = pret.get().getAbonne();
 		if (utilisateur.getRole() == Role.ROLE_ABONNE && utilisateur.getId() != utilisateurId)
-			throw new NotAllowedException("Vous ne pouvez pas prolonger ce prêt");
+			throw new NotAllowedException("Vous ne pouvez pas prolonger ce prêt. Vous n'etes pas l'emprunteur");
 		
 		// prolongation
 		Calendar c = Calendar.getInstance();
@@ -122,6 +127,7 @@ public class PretServiceImpl implements PretService
 		
 		// set nouveau statut
 		pret.get().setStatut(Statut.PROLONGE);
+		pret.get().setNbreProlongations(pret.get().getNbreProlongations() + 1);
 		
 		// sauvegarder
 		return pretRepository.save(pret.get());

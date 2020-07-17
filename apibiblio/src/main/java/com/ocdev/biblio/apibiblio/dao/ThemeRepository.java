@@ -18,5 +18,4 @@ public interface ThemeRepository extends JpaRepository<Theme, Long>
 {
 	public Optional<Theme> findByNomIgnoreCase(String nom);
 	public Collection<Theme> findAllByNomContainsIgnoreCase(String nom);
-	
 }
