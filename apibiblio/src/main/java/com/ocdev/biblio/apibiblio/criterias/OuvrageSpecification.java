@@ -1,6 +1,7 @@
 package com.ocdev.biblio.apibiblio.criterias;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,40 +15,56 @@ public class OuvrageSpecification
 {
 	public static Specification<Ouvrage> build(OuvrageCriteria critere, ThemeRepository themeRepository)
     {
-		List<Specification<Ouvrage>> specs = new ArrayList<Specification<Ouvrage>>();
+		List<Specification<Ouvrage>> specsAnd = new ArrayList<Specification<Ouvrage>>();
+		List<Specification<Ouvrage>> specsOr = new ArrayList<Specification<Ouvrage>>();
 		
 		if (!Tools.stringIsNullOrEmpty(critere.getTitre()))
 		{
-			specs.add((ouvrage, cq, cb) -> cb.like(ouvrage.get("titre"), "%" + critere.getTitre() + "%"));
+			specsAnd.add((ouvrage, cq, cb) -> cb.like(ouvrage.get("titre"), "%" + critere.getTitre() + "%"));
 		}
 		if (!Tools.stringIsNullOrEmpty(critere.getAuteur()))
 		{
-			specs.add((ouvrage, cq, cb) -> cb.like(ouvrage.get("auteur"), "%" + critere.getAuteur() + "%"));
+			specsAnd.add((ouvrage, cq, cb) -> cb.like(ouvrage.get("auteur"), "%" + critere.getAuteur() + "%"));
 		}
 		if (critere.getAnneeEdition() > 0)
 		{
-			specs.add((ouvrage, cq, cb) -> cb.ge(ouvrage.get("anneeEdition"), critere.getAnneeEdition()));
+			specsAnd.add((ouvrage, cq, cb) -> cb.ge(ouvrage.get("anneeEdition"), critere.getAnneeEdition()));
 		}
 		if (critere.getNbreExemplaire() > 0)
 		{
-			specs.add((ouvrage, cq, cb) -> cb.ge(ouvrage.get("nbreExemplaire"), critere.getNbreExemplaire()));
+			specsAnd.add((ouvrage, cq, cb) -> cb.ge(ouvrage.get("nbreExemplaire"), critere.getNbreExemplaire()));
 		}
 		if (!Tools.stringIsNullOrEmpty(critere.getTheme()))
 		{
-			Optional<Theme> theme = themeRepository.findByNomIgnoreCase(critere.getTheme());
-			if (theme.isPresent())
+			Collection<Theme> themes = themeRepository.findAllByNomContainsIgnoreCase(critere.getTheme());
+			if (themes.size() > 0)
 			{
-				specs.add((ouvrage, cq, cb) -> cb.equal(ouvrage.get("theme"), theme.get()));
+				for (Theme theme : themes)
+				{
+					specsOr.add((ouvrage, cq, cb) -> cb.equal(ouvrage.get("theme"), theme));
+				}
 			}
 		}
 		
-        if (specs.size() == 0) return null;
+        if (specsAnd.size() == 0 && specsOr.size() == 0) return null;
 
-        Specification<Ouvrage> result = specs.get(0);
+        Specification<Ouvrage> result = null;
 
-        for (int i = 1; i < specs.size(); i++)
+        if (specsAnd.size() > 0)
         {
-        	result = Specification.where(result).and(specs.get(i));
+        	result = specsAnd.get(0);
+        	for (int i = 1; i < specsAnd.size(); i++)
+            {
+            	result = Specification.where(result).and(specsAnd.get(i));
+            }
+        }
+        if (specsOr.size() > 0)
+        {
+        	result = specsOr.get(0);
+        	for (int i = 1; i < specsOr.size(); i++)
+            {
+        		result = Specification.where(result).or(specsOr.get(i));
+            }   	
         }
         return result;
     }
