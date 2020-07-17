@@ -27,21 +27,24 @@ public class Pret implements Serializable
 	private Long id;
 
 	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dateDebut;
 
 	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dateFinPrevu;
 
 	@Column(nullable = true)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date dateRetour;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	private Statut statut = Statut.RESERVE;
+	private Statut statut;
 
+	@Column(nullable = true)
+	private int nbreProlongations;
+	
 	@JoinColumn(name = "abonne_id")
 	@ManyToOne
 	private Utilisateur abonne;
@@ -56,10 +59,9 @@ public class Pret implements Serializable
 		// TODO Auto-generated constructor stub
 	}
 
-	public Pret(Date dateDebut, Utilisateur abonne, Ouvrage ouvrage)
+	public Pret(Utilisateur abonne, Ouvrage ouvrage)
 	{
 		super();
-		this.dateDebut = dateDebut;
 		this.abonne = abonne;
 		this.ouvrage = ouvrage;
 	}
@@ -112,6 +114,16 @@ public class Pret implements Serializable
 	public void setStatut(Statut statut)
 	{
 		this.statut = statut;
+	}
+
+	public int getNbreProlongations()
+	{
+		return nbreProlongations;
+	}
+
+	public void setNbreProlongations(int nbreProlongations)
+	{
+		this.nbreProlongations = nbreProlongations;
 	}
 
 	public Utilisateur getAbonne()

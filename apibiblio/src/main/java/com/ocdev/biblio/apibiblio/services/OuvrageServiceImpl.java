@@ -1,59 +1,54 @@
 package com.ocdev.biblio.apibiblio.services;
 
-import java.util.Collection;
 import java.util.Optional;
-import javax.transaction.Transactional;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
+import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
 import com.ocdev.biblio.apibiblio.dao.OuvrageRepository;
 import com.ocdev.biblio.apibiblio.dao.ThemeRepository;
+import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
-import com.ocdev.biblio.apibiblio.entities.Theme;
-import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
-import com.ocdev.biblio.apibiblio.exceptions.RequiredAndNotFoundException;
-import com.ocdev.biblio.apibiblio.utils.Tools;
+import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
+import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
 
-/**
- * Classe d'implémentation des service pour les ouvrages
- * Cette classe utilise le repository {@link com.ocdev.biblio.apibiblio.dao.OuvrageRepository}
- * @author C.Orsini
- * @see com.ocdev.biblio.apibiblio.dao.OuvrageRepository
- */
 @Service
 public class OuvrageServiceImpl implements OuvrageService
 {
 	@Autowired private OuvrageRepository ouvrageRepository;
+	@Autowired private IDtoConverter<Ouvrage, OuvrageCreateDto> ouvrageConverter;
 	@Autowired private ThemeRepository themeRepository;
 	
 	@Override
-	@Transactional
-	public Ouvrage ajouterOuChanger(String titre, String resume, String auteur, int anneePublication, String theme, int qte) throws NullOrEmptyArgumentException
+	public Ouvrage creer(OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException
 	{
-		if (Tools.stringIsNullOrEmpty(titre) || Tools.stringIsNullOrEmpty(auteur) || Tools.stringIsNullOrEmpty(theme)) throw new NullOrEmptyArgumentException();
+		Optional<Ouvrage> ouvrageExists = ouvrageRepository.findByTitreIgnoreCase(ouvrageCreateDto.getTitre());
+		if (ouvrageExists.isPresent())
+		{
+			// un ouvrage avec ce titre existe déjà
+			// log
+			throw new AlreadyExistsException("Un ouvrage avec le même titre existe déjà");
+		}
 		
-		Theme themeObject = themeRepository.findByNom(theme);
-		if (themeObject == null) themeObject = themeRepository.save(new Theme(theme));
+		Ouvrage ouvrage = ouvrageConverter.convertDtoToEntity(ouvrageCreateDto);
 		
-		Ouvrage ouvrage = ouvrageRepository.findByTitreContainingIgnoreCase(titre).orElse(new Ouvrage(titre, auteur, anneePublication, themeObject));
-		ouvrage.setResume(resume);		
-		ouvrage.setNbreExemplaire(qte);		
-		
+		// log
 		return ouvrageRepository.save(ouvrage);
 	}
 
 	@Override
-	public Collection<Ouvrage> rechercherOuvrages(String critere)
+	public Page<Ouvrage> rechercherOuvrages(OuvrageCriteria critere, Pageable paging)
 	{
-		// TODO Auto-generated method stub
-		throw new NotYetImplementedException();
+		return ouvrageRepository.findOuvrages(critere, themeRepository, paging);
 	}
 
 	@Override
-	public Ouvrage consulterOuvrage(Long id) throws RequiredAndNotFoundException
+	public Ouvrage consulterOuvrage(Long id) throws EntityNotFoundException
 	{
 		Optional<Ouvrage> ouvrage = ouvrageRepository.findById(id);
-		if (!ouvrage.isPresent()) throw new RequiredAndNotFoundException("L'ouvrage avec l'ID " + id + " n'existe pas");
+		if (!ouvrage.isPresent()) throw new EntityNotFoundException("L'ouvrage n'existe pas");
 		
 		return ouvrage.get();
 	}

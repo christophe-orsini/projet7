@@ -18,21 +18,24 @@ public class SwaggerConfig
     @Bean
     public Docket api()
     {
-        return new Docket(DocumentationType.SWAGGER_2)
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        		.useDefaultResponseMessages(false)
                 .select()
                 .paths(PathSelectors.ant("/api/**"))
                 .apis(RequestHandlerSelectors.basePackage("com.ocdev.biblio.apibiblio.controllers"))
                 .build().
                 apiInfo(apiInfo());
+        
+        return docket;
     }
     
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "REST API des bibliothèques de Bouquiville", //title
+                "REST API des bibliothèques de Bouquinville", //title
                 "Mise à disposition d'endpoints pour la gestion des prêts des bibliothèques", //description
                 "Version 1.0", //version
-                "Conditions d'utilisation", //terms of service URL
-                new Contact("OCDev", "www.ocdev.com", "info@ocdev.com"),
-                "Licenc de l'API", "API license URL", Collections.emptyList()); // contact info
+                "http://www.ocdev.com/conditions.html", //terms of service URL
+                new Contact("OCDev", "http://www.ocdev.com", "info@ocdev.com"),// contact info
+                "Licence GNU GPL", "https://www.gnu.org/licenses/gpl-3.0.html", Collections.emptyList()); 
     }
 }

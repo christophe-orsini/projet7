@@ -1,40 +1,42 @@
 package com.ocdev.biblio.apibiblio.services;
 
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
+import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
-import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
-import com.ocdev.biblio.apibiblio.exceptions.RequiredAndNotFoundException;
+import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
+import com.ocdev.biblio.apibiblio.errors.EntityNotFoundException;
 
 /**
- * Interface de déclaration des services pour les ouvrages
+ * Interface de déclaration des services pour les ouvrages.
  * @author C.Orsini
  */
 public interface OuvrageService
 {
 	/**
-	 * Méthode permettant d'ajouter ou de mettre à jour un ouvrage.
-	 * @param titre Le titre de l'ouvrage
-	 * @param resume Le résumé de l'ouvrage
-	 * @param auteur L'auteur de l'ouvrage
-	 * @param anneePublication L'année de publication
-	 * @param theme Le {@link com.ocdev.biblio.apibiblio.entities.Theme} de l'ouvrage
-	 * @param qte Nombre d'exemplaires disponibles
-	 * @return L'ouvrage nouvellement créé ou mis à jour
-	 * @throws NullOrEmptyArgumentException levée si un argument est null ou vide
+	 * Méthode permettant d'ajouter.
+	 * 
+	 * @param ouvrageCreateDto Le DTO de l'ouvrage à créer
+	 * @return L'ouvrage créé
+	 * @throws AlreadyExistsException levée si le titre existe déjà
 	 */
-	public Ouvrage ajouterOuChanger(String titre, String resume, String auteur, int anneePublication, String theme, int qte) throws NullOrEmptyArgumentException;
+	public Ouvrage creer(OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException;
 	/**
 	 * Méthode permettant de rechercher des ouvrages en fonction de critères.
+	 * 
 	 * @param critere Critère de recherche
+	 * @param paging Pagination
 	 * @return Une collection des ouvrages trouvés (peut être vide)
 	 */
-	public Collection<Ouvrage> rechercherOuvrages(String critere);
+	Page<Ouvrage> rechercherOuvrages(OuvrageCriteria critere, Pageable paging);
 	/**
 	 * Méthode permettant d'obtenir les détails d'un ouvrage.
 	 * 
 	 * @param id L'id de l'ouvrage
 	 * @return L'ouvrage trouvé
-	 * @throws RequiredAndNotFoundException levée si l'id n'existe pas
+	 * @throws EntityNotFoundException levée si l'id n'existe pas
 	 */
-	public Ouvrage consulterOuvrage(Long id) throws RequiredAndNotFoundException;
+	public Ouvrage consulterOuvrage(Long id) throws EntityNotFoundException;
+
 }

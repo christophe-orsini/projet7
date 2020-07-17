@@ -1,7 +1,8 @@
 package com.ocdev.biblio.apibiblio.services;
 
+import com.ocdev.biblio.apibiblio.dto.UtilisateurCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Utilisateur;
-import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
+import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 
 /**
  * Interface de déclaration des services pour les utilisateurs
@@ -9,7 +10,12 @@ import com.ocdev.biblio.apibiblio.exceptions.NullOrEmptyArgumentException;
  */
 public interface UtilisateurService
 {
-	
-	public Utilisateur inscrire(String email, String password, String nom, String prenom) throws NullOrEmptyArgumentException;
+	/**
+	 * Méthode de création d'un utilisateur.
+	 * @param utilisateurDto Le DTO de l'utilisateur à créer
+	 * @return L'utilisateur créé
+	 * @throws AlreadyExistsException levée si un utilisateur avec le même email (login) existe déjà
+	 */
+	public Utilisateur creer(UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException;
 	
 }
