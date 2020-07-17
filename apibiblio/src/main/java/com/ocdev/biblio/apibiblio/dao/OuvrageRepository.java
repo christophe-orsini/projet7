@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
-import com.ocdev.biblio.apibiblio.criterias.OuvrageSpecificationsBuilder;
+import com.ocdev.biblio.apibiblio.criterias.OuvrageSpecification;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 
 /**
@@ -20,9 +20,8 @@ public interface OuvrageRepository extends JpaRepository<Ouvrage, Long>, JpaSpec
 {
 	Optional<Ouvrage> findByTitreIgnoreCase(String titre);
 	
-	default Collection<Ouvrage> findOuvrages(OuvrageCriteria critere)
+	default Collection<Ouvrage> findOuvrages(OuvrageCriteria critere, ThemeRepository themeRepository)
 	{
-		OuvrageSpecificationsBuilder specBuilder = new OuvrageSpecificationsBuilder(critere);
-		return findAll(specBuilder.build());
+		return findAll(OuvrageSpecification.build(critere, themeRepository));
 	}
 }
