@@ -2,30 +2,22 @@ package com.ocdev.biblio.apibiblio.criterias;
 
 public class OuvrageCriteria
 {
-	private Long id;
 	private String titre;
 	private String auteur;
 	private int anneeEdition;
 	private String theme;
 	private int nbreExemplaire;
-	public OuvrageCriteria(Long id, String titre, String auteur, int anneeEdition, String theme, int nbreExemplaire)
+	
+	public OuvrageCriteria(String titre, String auteur, int anneeEdition, String theme, int nbreExemplaire)
 	{
 		super();
-		this.id = id;
 		this.titre = titre;
 		this.auteur = auteur;
 		this.anneeEdition = anneeEdition;
 		this.theme = theme;
 		this.nbreExemplaire = nbreExemplaire;
 	}
-	public Long getId()
-	{
-		return id;
-	}
-	public void setId(Long id)
-	{
-		this.id = id;
-	}
+	
 	public String getTitre()
 	{
 		return titre;

@@ -65,6 +65,7 @@ public class OuvrageController
 	public ResponseEntity<Collection<Ouvrage>> rechercherOuvrages(@RequestBody final OuvrageCriteria ouvrageCriteria, 
 			@RequestParam(required = false, defaultValue = "0") int page)
 	{
-		return new ResponseEntity<Collection<Ouvrage>>(HttpStatus.NOT_FOUND);
+		Collection<Ouvrage> ouvrages = ouvrageService.rechercherOuvrages(ouvrageCriteria);
+		return new ResponseEntity<Collection<Ouvrage>>(ouvrages, HttpStatus.OK);
 	}
 }

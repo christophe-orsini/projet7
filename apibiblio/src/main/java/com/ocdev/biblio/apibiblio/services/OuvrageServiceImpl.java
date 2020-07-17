@@ -2,12 +2,12 @@ package com.ocdev.biblio.apibiblio.services;
 
 import java.util.Collection;
 import java.util.Optional;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
 import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
 import com.ocdev.biblio.apibiblio.dao.OuvrageRepository;
+import com.ocdev.biblio.apibiblio.dao.ThemeRepository;
 import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -18,6 +18,7 @@ public class OuvrageServiceImpl implements OuvrageService
 {
 	@Autowired private OuvrageRepository ouvrageRepository;
 	@Autowired private IDtoConverter<Ouvrage, OuvrageCreateDto> ouvrageConverter;
+	@Autowired private ThemeRepository themeRepository;
 	
 	@Override
 	// TODO javadoc @Transactional
@@ -40,8 +41,7 @@ public class OuvrageServiceImpl implements OuvrageService
 	@Override
 	public Collection<Ouvrage> rechercherOuvrages(OuvrageCriteria critere)
 	{
-		// TODO Auto-generated method stub
-		throw new NotYetImplementedException();
+		return ouvrageRepository.findOuvrages(critere, themeRepository);
 	}
 
 	@Override
