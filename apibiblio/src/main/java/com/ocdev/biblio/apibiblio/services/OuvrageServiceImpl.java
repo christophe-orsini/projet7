@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
 import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
+import com.ocdev.biblio.apibiblio.criterias.OuvrageSpecification;
 import com.ocdev.biblio.apibiblio.dao.OuvrageRepository;
 import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
@@ -40,8 +41,7 @@ public class OuvrageServiceImpl implements OuvrageService
 	@Override
 	public Collection<Ouvrage> rechercherOuvrages(OuvrageCriteria critere)
 	{
-		// TODO Auto-generated method stub
-		throw new NotYetImplementedException();
+		return ouvrageRepository.findOuvrages(critere);
 	}
 
 	@Override

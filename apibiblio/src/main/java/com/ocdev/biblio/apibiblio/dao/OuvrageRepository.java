@@ -2,12 +2,11 @@ package com.ocdev.biblio.apibiblio.dao;
 
 import java.util.Collection;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
-
 import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
+import com.ocdev.biblio.apibiblio.criterias.OuvrageSpecificationsBuilder;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 
 /**
@@ -21,11 +20,9 @@ public interface OuvrageRepository extends JpaRepository<Ouvrage, Long>, JpaSpec
 {
 	Optional<Ouvrage> findByTitreIgnoreCase(String titre);
 	
-	default Collection<Ouvrage> searchOuvrages(OuvrageCriteria criteria)
+	default Collection<Ouvrage> findOuvrages(OuvrageCriteria critere)
 	{
-		return findAll((root, query, cb) ->
-		{
-			return cb.lessThan(root.get("id"), criteria.getId());
-		});
+		OuvrageSpecificationsBuilder specBuilder = new OuvrageSpecificationsBuilder(critere);
+		return findAll(specBuilder.build());
 	}
 }
