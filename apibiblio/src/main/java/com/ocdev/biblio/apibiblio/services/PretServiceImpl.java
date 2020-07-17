@@ -52,9 +52,8 @@ public class PretServiceImpl implements PretService
 		// verifier s'il y a assez d'exemplaires d'ouvrage
 		if (ouvrage.get().getNbreExemplaire() < 1) throw new NotEnoughCopiesException("Pas assez d'exemplaires pour le prêt de cet ouvrage");
 		
-		// mettre a jour le nombre d'exemplaires
+		// mise à jour du nombre d'exemplaires
 		ouvrage.get().setNbreExemplaire(ouvrage.get().getNbreExemplaire() - 1);
-		ouvrageRepository.save(ouvrage.get());
 		
 		// initialisation du pret
 		Pret pret = new Pret(abonne.get(), ouvrage.get());
@@ -67,11 +66,15 @@ public class PretServiceImpl implements PretService
 		
 		pret.setStatut(Statut.EN_COURS);
 		
+		// sauvegarde de l'ouvrage
+		ouvrageRepository.save(ouvrage.get());
+		
 		// creation du pret
 		return pretRepository.save(pret);
 	}
 
 	@Override
+	@Transactional
 	public void retournerOuvrage(Long pretId, Long utilisateurId) throws EntityNotFoundException, NotAllowedException
 	{
 		Optional<Pret> pret = pretRepository.findById(pretId);

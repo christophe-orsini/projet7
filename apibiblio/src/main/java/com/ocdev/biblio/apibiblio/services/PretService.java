@@ -46,6 +46,7 @@ public interface PretService
 	/**
 	 * Retoune la liste des prêts d'un abonné
 	 * @param abonneId L'ID de l'abonné
+	 * @param paging Pagination
 	 * @return La liste des prêt qui peut être vide
 	 * @throws EntityNotFoundException levée si l'abonné n'existe pas
 	 */
@@ -53,7 +54,6 @@ public interface PretService
 	/**
 	 * Permet de consulter un prêt
 	 * @param pretId L'ID du prêt
-	 * @param paging Pagination
 	 * @return Le prêt
 	 * @throws EntityNotFoundException levée si le prêt n'existe pas
 	 */

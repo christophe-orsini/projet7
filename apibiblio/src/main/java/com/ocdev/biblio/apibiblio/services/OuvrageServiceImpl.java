@@ -22,7 +22,6 @@ public class OuvrageServiceImpl implements OuvrageService
 	@Autowired private ThemeRepository themeRepository;
 	
 	@Override
-	// TODO javadoc @Transactional
 	public Ouvrage creer(OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException
 	{
 		Optional<Ouvrage> ouvrageExists = ouvrageRepository.findByTitreIgnoreCase(ouvrageCreateDto.getTitre());
