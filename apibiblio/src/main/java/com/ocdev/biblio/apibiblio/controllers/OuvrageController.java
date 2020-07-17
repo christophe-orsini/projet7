@@ -1,9 +1,11 @@
 package com.ocdev.biblio.apibiblio.controllers;
 
-import java.util.Collection;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -62,10 +64,13 @@ public class OuvrageController
 			@ApiResponse(code = 200, message = "La liste des ouvrages est retourné dans le corps de la réponse")
 			})
 	@GetMapping(value = "/ouvrages")
-	public ResponseEntity<Collection<Ouvrage>> rechercherOuvrages(@RequestBody final OuvrageCriteria ouvrageCriteria, 
-			@RequestParam(required = false, defaultValue = "0") int page)
+	public ResponseEntity<Page<Ouvrage>> rechercherOuvrages(@RequestBody final OuvrageCriteria ouvrageCriteria, 
+			@RequestParam(required = false, defaultValue = "0") int page,
+			@RequestParam(required = false, defaultValue = "99") int taille)
 	{
-		Collection<Ouvrage> ouvrages = ouvrageService.rechercherOuvrages(ouvrageCriteria);
-		return new ResponseEntity<Collection<Ouvrage>>(ouvrages, HttpStatus.OK);
+		Pageable paging = PageRequest.of(page,  taille);
+		
+		Page<Ouvrage> ouvrages = ouvrageService.rechercherOuvrages(ouvrageCriteria, paging);
+		return new ResponseEntity<Page<Ouvrage>>(ouvrages, HttpStatus.OK);
 	}
 }

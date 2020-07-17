@@ -1,8 +1,9 @@
 package com.ocdev.biblio.apibiblio.services;
 
-import java.util.Collection;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.ThemeCreateDtoConverter;
 import com.ocdev.biblio.apibiblio.dao.ThemeRepository;
@@ -53,9 +54,9 @@ public class ThemeServiceImpl implements ThemeService
 	}
 
 	@Override
-	public Collection<Theme> listeThemes()
+	public Page<Theme> listeThemes(Pageable paging)
 	{
-		return themeRepository.findAll();
+		return themeRepository.findAll(paging);
 	}
 
 }

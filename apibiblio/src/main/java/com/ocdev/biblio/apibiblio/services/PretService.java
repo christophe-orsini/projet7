@@ -1,6 +1,7 @@
 package com.ocdev.biblio.apibiblio.services;
 
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.ocdev.biblio.apibiblio.entities.Pret;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 import com.ocdev.biblio.apibiblio.errors.DelayLoanException;
@@ -48,10 +49,11 @@ public interface PretService
 	 * @return La liste des prêt qui peut être vide
 	 * @throws EntityNotFoundException levée si l'abonné n'existe pas
 	 */
-	public Collection<Pret> listerSesPrets(Long abonneId) throws EntityNotFoundException;
+	public Page<Pret> listerSesPrets(Long abonneId, Pageable paging) throws EntityNotFoundException;
 	/**
 	 * Permet de consulter un prêt
 	 * @param pretId L'ID du prêt
+	 * @param paging Pagination
 	 * @return Le prêt
 	 * @throws EntityNotFoundException levée si le prêt n'existe pas
 	 */

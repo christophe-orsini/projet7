@@ -1,6 +1,7 @@
 package com.ocdev.biblio.apibiblio.services;
 
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
 import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
@@ -25,9 +26,10 @@ public interface OuvrageService
 	 * Méthode permettant de rechercher des ouvrages en fonction de critères.
 	 * 
 	 * @param critere Critère de recherche
+	 * @param paging Pagination
 	 * @return Une collection des ouvrages trouvés (peut être vide)
 	 */
-	Collection<Ouvrage> rechercherOuvrages(OuvrageCriteria critere);
+	Page<Ouvrage> rechercherOuvrages(OuvrageCriteria critere, Pageable paging);
 	/**
 	 * Méthode permettant d'obtenir les détails d'un ouvrage.
 	 * 

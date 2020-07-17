@@ -1,8 +1,10 @@
 package com.ocdev.biblio.apibiblio.controllers;
 
-import java.util.Collection;
 import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ocdev.biblio.apibiblio.entities.Pret;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -67,11 +70,15 @@ public class PretController
 			@ApiResponse(code = 404, message = "L'abonné n'existe pas")
 			})
 	@GetMapping(value = "/prets/{abonneId}")
-	public ResponseEntity<Collection<Pret>> ListeMesPrets(@ApiParam(value = "ID de l'abonné", required = true, example = "1")
-			@PathVariable @Min(1) final Long abonneId) throws EntityNotFoundException
+	public ResponseEntity<Page<Pret>> ListeMesPrets(@ApiParam(value = "ID de l'abonné", required = true, example = "1")
+			@PathVariable @Min(1) final Long abonneId,
+			@RequestParam(required = false, defaultValue = "0") int page,
+			@RequestParam(required = false, defaultValue = "99") int taille) throws EntityNotFoundException
 	{
-		Collection<Pret> results = pretService.listerSesPrets(abonneId);
-		return new ResponseEntity<Collection<Pret>>(results, HttpStatus.OK);
+		Pageable paging = PageRequest.of(page,  taille);
+		
+		Page<Pret> results = pretService.listerSesPrets(abonneId, paging);
+		return new ResponseEntity<Page<Pret>>(results, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Prolongation d'un prêt", notes = "Prolongation d'un prêt pour une nouvelle période")

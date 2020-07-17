@@ -1,8 +1,10 @@
 package com.ocdev.biblio.apibiblio.controllers;
 
-import java.util.Collection;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ocdev.biblio.apibiblio.dto.ThemeCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Theme;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -45,9 +47,12 @@ public class ThemeController
 			@ApiResponse(code = 200, message = "La liste des thèmes est retournée dans le corps de la réponse"),
 			})
 	@GetMapping(value = "/themes")
-	public ResponseEntity<Collection<Theme>> getThemes() throws EntityNotFoundException
+	public ResponseEntity<Page<Theme>> getThemes(@RequestParam(required = false, defaultValue = "0") int page,
+			@RequestParam(required = false, defaultValue = "99") int taille) throws EntityNotFoundException
 	{
-		Collection<Theme> themes = themeService.listeThemes();
-		return new ResponseEntity<Collection<Theme>>(themes, HttpStatus.OK);
+		Pageable paging = PageRequest.of(page,  taille);
+		
+		Page<Theme> themes = themeService.listeThemes(paging);
+		return new ResponseEntity<Page<Theme>>(themes, HttpStatus.OK);
 	}
 }

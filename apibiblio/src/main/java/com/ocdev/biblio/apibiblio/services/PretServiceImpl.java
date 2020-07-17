@@ -1,10 +1,11 @@
 package com.ocdev.biblio.apibiblio.services;
 
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
@@ -134,13 +135,13 @@ public class PretServiceImpl implements PretService
 	}
 
 	@Override
-	public Collection<Pret> listerSesPrets(Long abonneId) throws EntityNotFoundException
+	public Page<Pret> listerSesPrets(Long abonneId, Pageable paging) throws EntityNotFoundException
 	{
 		// verifier si l'abonné existe
 		Optional<Utilisateur> abonne = utilisateurRepository.findById(abonneId);
 		if (!abonne.isPresent()) throw new EntityNotFoundException("L'abonné n'existe pas");
 		
-		return pretRepository.findByAbonneIdAndStatutNotAndStatutNot(abonneId, Statut.INCONNU, Statut.RETOURNE);
+		return pretRepository.findByAbonneIdAndStatutNotAndStatutNot(abonneId, Statut.INCONNU, Statut.RETOURNE, paging);
 	}
 
 	@Override

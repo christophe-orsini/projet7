@@ -1,6 +1,7 @@
 package com.ocdev.biblio.apibiblio.services;
 
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.ocdev.biblio.apibiblio.dto.ThemeCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Theme;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -36,7 +37,8 @@ public interface ThemeService
 	public Theme obtenir(String nom) throws EntityNotFoundException;
 	/**
 	 * Liste tous les thèmes
+	 * @param paging Pagination
 	 * @return La liste (peut être vide)
 	 */
-	public Collection<Theme> listeThemes();
+	public Page<Theme> listeThemes(Pageable paging);
 }

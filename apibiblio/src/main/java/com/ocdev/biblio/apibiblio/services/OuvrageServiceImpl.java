@@ -1,8 +1,9 @@
 package com.ocdev.biblio.apibiblio.services;
 
-import java.util.Collection;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
 import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
@@ -39,9 +40,9 @@ public class OuvrageServiceImpl implements OuvrageService
 	}
 
 	@Override
-	public Collection<Ouvrage> rechercherOuvrages(OuvrageCriteria critere)
+	public Page<Ouvrage> rechercherOuvrages(OuvrageCriteria critere, Pageable paging)
 	{
-		return ouvrageRepository.findOuvrages(critere, themeRepository);
+		return ouvrageRepository.findOuvrages(critere, themeRepository, paging);
 	}
 
 	@Override
