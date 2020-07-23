@@ -20,11 +20,12 @@ public class SwaggerConfig
     {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
         		.useDefaultResponseMessages(false)
-                .select()
+        		.select()
                 .paths(PathSelectors.ant("/api/**"))
                 .apis(RequestHandlerSelectors.basePackage("com.ocdev.biblio.apibiblio.controllers"))
-                .build().
-                apiInfo(apiInfo());
+                .build()
+                .apiInfo(apiInfo()
+                );
         
         return docket;
     }

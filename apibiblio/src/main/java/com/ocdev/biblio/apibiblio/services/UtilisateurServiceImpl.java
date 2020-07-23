@@ -3,6 +3,7 @@ package com.ocdev.biblio.apibiblio.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
 import com.ocdev.biblio.apibiblio.dao.UtilisateurRepository;
@@ -15,7 +16,8 @@ import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
 public class UtilisateurServiceImpl implements UtilisateurService
 {
 	@Autowired private UtilisateurRepository utilisateurRepository;
-	@Autowired IDtoConverter<Utilisateur, UtilisateurCreateDto> utilisateurConverter;
+	@Autowired private IDtoConverter<Utilisateur, UtilisateurCreateDto> utilisateurConverter;
+	@Autowired private BCryptPasswordEncoder passwordencoder;
 	
 	@Override
 	public Utilisateur creer(UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException
@@ -28,8 +30,11 @@ public class UtilisateurServiceImpl implements UtilisateurService
 			throw new AlreadyExistsException("Un utilisateur avec cet email existe déjà");
 		}
 		
+		String passwordEncoded = passwordencoder.encode(utilisateurDto.getPassword());
+		
 		Utilisateur utilisateur = utilisateurConverter.convertDtoToEntity(utilisateurDto);
 		utilisateur.setRole(Role.ROLE_ABONNE);
+		utilisateur.setPassword(passwordEncoded);
 		
 		// log
 		return utilisateurRepository.save(utilisateur);

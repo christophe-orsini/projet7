@@ -1,71 +1,50 @@
 package com.ocdev.biblio.apibiblio.criterias;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
-import com.ocdev.biblio.apibiblio.dao.ThemeRepository;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
-import com.ocdev.biblio.apibiblio.entities.Theme;
 import com.ocdev.biblio.apibiblio.utils.Tools;
 
-public class OuvrageSpecification
+public class OuvrageSpecification implements Specification<Ouvrage>
 {
-	public static Specification<Ouvrage> build(OuvrageCriteria critere, ThemeRepository themeRepository)
-    {
-		List<Specification<Ouvrage>> specsAnd = new ArrayList<Specification<Ouvrage>>();
-		List<Specification<Ouvrage>> specsOr = new ArrayList<Specification<Ouvrage>>();
+	private OuvrageCriteria ouvrageCriterie;
+	
+	public OuvrageSpecification(OuvrageCriteria filter)
+	{
+		super();
+		this.ouvrageCriterie = filter;
+	}
+
+	@Override
+	public Predicate toPredicate(Root<Ouvrage> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder)
+	{
+		Predicate predicate = criteriaBuilder.conjunction();
 		
-		if (!Tools.stringIsNullOrEmpty(critere.getTitre()))
+		if (!Tools.stringIsNullOrEmpty(ouvrageCriterie.getTitre()))
 		{
-			specsAnd.add((ouvrage, cq, cb) -> cb.like(ouvrage.get("titre"), "%" + critere.getTitre() + "%"));
+			predicate.getExpressions().add(criteriaBuilder.like(root.get("titre"), "%" + ouvrageCriterie.getTitre() + "%"));
 		}
-		if (!Tools.stringIsNullOrEmpty(critere.getAuteur()))
+		if (!Tools.stringIsNullOrEmpty(ouvrageCriterie.getAuteur()))
 		{
-			specsAnd.add((ouvrage, cq, cb) -> cb.like(ouvrage.get("auteur"), "%" + critere.getAuteur() + "%"));
+			predicate.getExpressions().add(criteriaBuilder.like(root.get("auteur"), "%" + ouvrageCriterie.getAuteur() + "%"));
 		}
-		if (critere.getAnneeEdition() > 0)
+		if (ouvrageCriterie.getAnneeEdition() > 0)
 		{
-			specsAnd.add((ouvrage, cq, cb) -> cb.ge(ouvrage.get("anneeEdition"), critere.getAnneeEdition()));
+			predicate.getExpressions().add(criteriaBuilder.ge(root.get("anneeEdition"), ouvrageCriterie.getAnneeEdition()));
 		}
-		if (critere.getNbreExemplaire() > 0)
+		if (ouvrageCriterie.getNbreExemplaire() > 0)
 		{
-			specsAnd.add((ouvrage, cq, cb) -> cb.ge(ouvrage.get("nbreExemplaire"), critere.getNbreExemplaire()));
-		}
-		if (!Tools.stringIsNullOrEmpty(critere.getTheme()))
-		{
-			Collection<Theme> themes = themeRepository.findAllByNomContainsIgnoreCase(critere.getTheme());
-			if (themes.size() > 0)
-			{
-				for (Theme theme : themes)
-				{
-					specsOr.add((ouvrage, cq, cb) -> cb.equal(ouvrage.get("theme"), theme));
-				}
-			}
+			predicate.getExpressions().add(criteriaBuilder.ge(root.get("nbreExemplaire"), ouvrageCriterie.getNbreExemplaire()));
 		}
 		
-        if (specsAnd.size() == 0 && specsOr.size() == 0) return null;
-
-        Specification<Ouvrage> result = null;
-
-        if (specsAnd.size() > 0)
-        {
-        	result = specsAnd.get(0);
-        	for (int i = 1; i < specsAnd.size(); i++)
-            {
-            	result = Specification.where(result).and(specsAnd.get(i));
-            }
-        }
-        if (specsOr.size() > 0)
-        {
-        	result = specsOr.get(0);
-        	for (int i = 1; i < specsOr.size(); i++)
-            {
-        		result = Specification.where(result).or(specsOr.get(i));
-            }   	
-        }
-        return result;
-    }
+		if (!Tools.stringIsNullOrEmpty(ouvrageCriterie.getTheme()))
+		{
+			predicate.getExpressions().add(criteriaBuilder.like(root.join("theme").get("nom"), "%" + ouvrageCriterie.getTheme() + "%"));
+		}
+		
+		return criteriaBuilder.and(predicate);
+	}
 }
