@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1/*")
+@RequestMapping("/api/v1")
 public class UtilisateurController
 {
 	@Autowired UtilisateurService utilisateurService;
@@ -27,7 +27,7 @@ public class UtilisateurController
 			@ApiResponse(code = 201, message = "L'utilisateur est correctement inscrit"),
 			@ApiResponse(code = 460, message = "Un utilisateur avec le même email existe déjà")
 			})
-	@PostMapping(value = "/utilisateurs")
+	@PostMapping(value = "/utilisateurs", produces = "application/json")
 	public ResponseEntity<Utilisateur> inscrire(@Valid @RequestBody UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException
 	{
 		Utilisateur result = utilisateurService.creer(utilisateurDto);

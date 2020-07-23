@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1/*")
+@RequestMapping("/api/v1")
 @Validated
 public class ThemeController
 {
@@ -33,9 +33,10 @@ public class ThemeController
 	@ApiOperation(value = "Ajout d'un thème", notes = "Ajout d'un nouveau thème")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Le thème est correctement créé"),
+			@ApiResponse(code = 403, message = "Authentification requise"),
 			@ApiResponse(code = 409, message = "Un thème avec le même nom existe déjà")
 			})
-	@PostMapping(value ="/themes")
+	@PostMapping(value ="/themes", produces = "application/json")
 	public ResponseEntity<Theme> ajouterTheme(@Valid @RequestBody final ThemeCreateDto themeCreateDto) throws AlreadyExistsException
 	{
 		Theme result = themeService.creer(themeCreateDto);
@@ -45,8 +46,9 @@ public class ThemeController
 	@ApiOperation(value = "Liste des thèmes", notes = "Obtenir la liste des thèmes")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "La liste des thèmes est retournée dans le corps de la réponse"),
+			@ApiResponse(code = 403, message = "Authentification requise")
 			})
-	@GetMapping(value = "/themes")
+	@GetMapping(value = "/themes", produces = "application/json")
 	public ResponseEntity<Page<Theme>> getThemes(@RequestParam(required = false, defaultValue = "0") int page,
 			@RequestParam(required = false, defaultValue = "99") int taille) throws EntityNotFoundException
 	{

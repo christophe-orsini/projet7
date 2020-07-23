@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/v1/*")
+@RequestMapping("/api/v1")
 @Validated
 public class OuvrageController
 {
@@ -37,9 +37,10 @@ public class OuvrageController
 	@ApiOperation(value = "Ajout d'un ouvrage", notes = "Ajout d'un nouvel ouvrage")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "L'ouvrage est correctement créé"),
+			@ApiResponse(code = 403, message = "Authentification requise"),
 			@ApiResponse(code = 460, message = "Un ouvrage avec le même titre existe déjà")
 			})
-	@PostMapping(value ="/ouvrages")
+	@PostMapping(value ="/ouvrages", produces = "application/json")
 	public ResponseEntity<Ouvrage> ajouterOuvrage(@Valid @RequestBody final OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException
 	{
 		Ouvrage result = ouvrageService.creer(ouvrageCreateDto);
@@ -49,9 +50,10 @@ public class OuvrageController
 	@ApiOperation(value = "Consultation d'un ouvrage", notes = "Obtenir les détails d'un ouvrage")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "L'ouvrage trouvé est retourné dans le corps de la réponse"),
+			@ApiResponse(code = 403, message = "Authentification requise"),
 			@ApiResponse(code = 404, message = "L'ouvrage avec cet ID n'existe pas")
 			})
-	@GetMapping(value = "/ouvrages/{ouvrageId}")
+	@GetMapping(value = "/ouvrages/{ouvrageId}", produces = "application/json")
 	public ResponseEntity<Ouvrage> getOuvrageById(@ApiParam(value="ID de l'ouvrage", required = true, example = "1")
 			@PathVariable @Min(1) final long ouvrageId) throws EntityNotFoundException
 	{
@@ -61,9 +63,10 @@ public class OuvrageController
 	
 	@ApiOperation(value = "Recherche d'ouvrages", notes = "Obtenir une liste d'ouvrages correspondant à plusieurs critères de recherche")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "La liste des ouvrages est retourné dans le corps de la réponse")
+			@ApiResponse(code = 200, message = "La liste des ouvrages est retourné dans le corps de la réponse"),
+			@ApiResponse(code = 403, message = "Authentification requise")
 			})
-	@GetMapping(value = "/ouvrages")
+	@GetMapping(value = "/ouvrages", produces = "application/json")
 	public ResponseEntity<Page<Ouvrage>> rechercherOuvrages(@RequestBody final OuvrageCriteria ouvrageCriteria, 
 			@RequestParam(required = false, defaultValue = "0") int page,
 			@RequestParam(required = false, defaultValue = "99") int taille)
