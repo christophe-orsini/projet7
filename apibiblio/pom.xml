@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>biblio</artifactId>
 		<groupId>com.ocdev</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>apibiblio</artifactId>
@@ -42,7 +42,9 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-		<!-- dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId> 
+		</dependency>
 	</dependencies>
 </project>

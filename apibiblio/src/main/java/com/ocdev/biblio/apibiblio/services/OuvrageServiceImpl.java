@@ -7,8 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.ocdev.biblio.apibiblio.assemblers.IDtoConverter;
 import com.ocdev.biblio.apibiblio.criterias.OuvrageCriteria;
+import com.ocdev.biblio.apibiblio.criterias.OuvrageSpecification;
 import com.ocdev.biblio.apibiblio.dao.OuvrageRepository;
-import com.ocdev.biblio.apibiblio.dao.ThemeRepository;
 import com.ocdev.biblio.apibiblio.dto.OuvrageCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Ouvrage;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -19,7 +19,6 @@ public class OuvrageServiceImpl implements OuvrageService
 {
 	@Autowired private OuvrageRepository ouvrageRepository;
 	@Autowired private IDtoConverter<Ouvrage, OuvrageCreateDto> ouvrageConverter;
-	@Autowired private ThemeRepository themeRepository;
 	
 	@Override
 	public Ouvrage creer(OuvrageCreateDto ouvrageCreateDto) throws AlreadyExistsException
@@ -41,7 +40,8 @@ public class OuvrageServiceImpl implements OuvrageService
 	@Override
 	public Page<Ouvrage> rechercherOuvrages(OuvrageCriteria critere, Pageable paging)
 	{
-		return ouvrageRepository.findOuvrages(critere, themeRepository, paging);
+		OuvrageSpecification spec = new OuvrageSpecification(critere);
+		return ouvrageRepository.findAll(spec, paging);
 	}
 
 	@Override

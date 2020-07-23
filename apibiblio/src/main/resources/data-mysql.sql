@@ -12,8 +12,8 @@ INSERT INTO ouvrage (id, auteur, nbre_exemplaire, resume, titre, theme_id, annee
 (4, "Charles Perrault", 1, "Un bûcheron et sa femme n'ont plus de quoi nourrir leurs sept garçons. .", "Le petit poucet", 5, 1697);
 
 INSERT INTO utilisateur (id, email, nom, password, prenom, role) VALUES
-(1, "admin@biblio.fr", "Administrateur", "1234", NULL, "ROLE_ADMINISTRATEUR"),
-(2, "abonne@biblio.fr", "Abonné", "4321", NULL, "ROLE_ABONNE");
+(1, "admin@biblio.fr", "Administrateur", "$2a$10$eZPZMT/NtMtoJANyhmIIUuRXakpVesT0wNMC4NHLd2r9UF/sVNFxu", NULL, "ROLE_ADMINISTRATEUR"),
+(2, "abonne@biblio.fr", "Abonné", "$2a$10$nxSnMr9s6rYmqCefnlWnse3R6FSMT8aYPVIeada9IAam2fNbfoW1a", NULL, "ROLE_ABONNE");
 
 INSERT INTO pret (id, date_debut, date_fin_prevu, date_retour, statut, abonne_id, ouvrage_id, nbre_prolongations) VALUES
 (1, "2020-07-10", "2020-08-07", NULL, "EN_COURS", 1, 1, 1),
