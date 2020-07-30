@@ -5,3 +5,4 @@ javadoc.xml
 target
 *.class
 doc
+/apibiblio/src/main/resources/META-INF/additional-spring-configuration-metadata.json

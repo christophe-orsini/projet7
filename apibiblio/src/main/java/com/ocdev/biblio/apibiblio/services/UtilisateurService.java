@@ -17,5 +17,4 @@ public interface UtilisateurService
 	 * @throws AlreadyExistsException levée si un utilisateur avec le même email (login) existe déjà
 	 */
 	public Utilisateur creer(UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException;
-	
 }
