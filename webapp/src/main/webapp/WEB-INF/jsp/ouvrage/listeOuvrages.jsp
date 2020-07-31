@@ -13,11 +13,6 @@
 		<div class="col-12 border">
 			<form:form action="/abonne/rechercheOuvrages" method="post" class="form-row form-inline"
 				modelAttribute="ouvrageCherche">
-				"anneeEdition": 0,
-  "auteur": "string",
-  "nbreExemplaire": 0,
-  "theme": "string",
-  "titre": "string"				
 				<form:input path="titre" class="form-control form-control-sm col-12" placeholder="Titre" />						
 				<form:input path="auteur" class="form-control form-control-sm col-12 col-md-4" placeholder="Auteur" />
 				<form:input path="theme" class="form-control form-control-sm col-12 col-sm-6 col-md-4" 
@@ -46,10 +41,10 @@
 					<c:forEach items="${ouvrages}" var="ouvrage" varStatus="status">
 					<tr>
 						<td><a href="/abonne/detailOuvrage/${ouvrage.id}">${ouvrage.titre}</a></td>
-						<td><fmt:formatDate value="${ ouvrage.anneeEdition }" type="date" /></td>
+						<td>${ouvrage.anneeEdition}</td>
 						<td>${ouvrage.auteur}</td>
 						<td>${ouvrage.theme.nom}</td>
-						<td><c:if test="${ ouvrage.nbreExemplaires > 0 }">Oui</c:if></td>
+						<td><c:if test="${ ouvrage.nbreExemplaire > 0 }">Oui</c:if></td>
 					</tr>
 					</c:forEach>
 				</tbody>

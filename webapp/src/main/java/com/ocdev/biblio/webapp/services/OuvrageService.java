@@ -1,11 +1,12 @@
 package com.ocdev.biblio.webapp.services;
 
-import java.util.Collection;
+import org.springframework.data.domain.Page;
 
+import com.ocdev.biblio.webapp.dto.OuvrageCriteria;
 import com.ocdev.biblio.webapp.entities.Ouvrage;
 
 public interface OuvrageService
 {
-	public Collection<Ouvrage> listeOuvrages(Long id);
+	public Page<Ouvrage> listeOuvrages(OuvrageCriteria ouvrageCriteria, int page, int taille);
 	public Ouvrage getOuvrageById(Long id);
 }
