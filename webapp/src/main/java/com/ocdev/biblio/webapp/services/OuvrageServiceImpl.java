@@ -8,7 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import com.ocdev.biblio.webapp.config.PropertiesConfigurationService;
+
 import com.ocdev.biblio.webapp.dto.OuvrageCriteria;
 import com.ocdev.biblio.webapp.entities.Ouvrage;
 import com.ocdev.biblio.webapp.utils.RestResponsePage;
