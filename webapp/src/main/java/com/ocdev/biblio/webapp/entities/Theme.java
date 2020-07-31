@@ -1,25 +1,16 @@
-package com.ocdev.biblio.apibiblio.entities;
+package com.ocdev.biblio.webapp.entities;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * Classe modèle pour un thème
  * @author C.Orsini
  *
  */
-@Entity
 public class Theme implements Serializable
 {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
 	private String nom;
 
 	public Theme()

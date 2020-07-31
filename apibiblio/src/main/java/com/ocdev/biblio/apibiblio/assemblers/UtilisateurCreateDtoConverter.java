@@ -1,5 +1,6 @@
 package com.ocdev.biblio.apibiblio.assemblers;
 
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.stereotype.Component;
 import com.ocdev.biblio.apibiblio.dto.UtilisateurCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Utilisateur;
@@ -18,5 +19,12 @@ public class UtilisateurCreateDtoConverter implements IDtoConverter<Utilisateur,
 		utilisateur.setPrenom(utilisateurDto.getPrenom());
 		
 		return utilisateur;
+	}
+
+	@Override
+	public UtilisateurCreateDto convertEntityToDto(Utilisateur entity)
+	{
+		// TODO Auto-generated method stub
+		throw new NotYetImplementedException();
 	}
 }

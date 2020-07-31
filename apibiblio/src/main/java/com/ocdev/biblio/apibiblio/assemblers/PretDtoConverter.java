@@ -1,5 +1,6 @@
 package com.ocdev.biblio.apibiblio.assemblers;
 
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ocdev.biblio.apibiblio.dao.OuvrageRepository;
@@ -28,5 +29,12 @@ public class PretDtoConverter implements IDtoConverter<Pret, PretDto>
 		pret.setOuvrage(ouvrageRepository.getOne(pretDto.getOuvrageId()));
 		
 		return pret;
+	}
+
+	@Override
+	public PretDto convertEntityToDto(Pret entity)
+	{
+		// TODO Auto-generated method stub
+		throw new NotYetImplementedException();
 	}
 }
