@@ -19,7 +19,7 @@
 				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
 					role="button" aria-haspopup="true" aria-expanded="false">Ouvrages</a>
 				<div class="dropdown-menu">
-					<a class="nav-link" href="/abonne/listeOuvrages/1">Liste des ouvrages</a>
+					<a class="nav-link" href="/abonne/listeOuvrages">Liste des ouvrages</a>
 				</div>
 			</div>
 			<div class="dropdown">
