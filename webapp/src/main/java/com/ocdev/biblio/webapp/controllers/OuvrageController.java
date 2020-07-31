@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ocdev.biblio.webapp.dto.OuvrageCriteria;
@@ -31,10 +32,10 @@ public class OuvrageController
 		return "/ouvrage/listeOuvrages";
 	}
 	
-	@GetMapping("/abonne/consulterOuvrage/{id}")
-	public String consulter(Model model, Principal utilisateur)
+	@GetMapping("/abonne/detailOuvrage/{id}")
+	public String consulter(@PathVariable Long id,  Model model, Principal utilisateur)
 	{
-		Ouvrage response = ouvrageService.getOuvrageById(1L);
+		Ouvrage response = ouvrageService.getOuvrageById(id);
 		model.addAttribute("ouvrage", response);
 		return "/ouvrage/detailOuvrage";
 	}

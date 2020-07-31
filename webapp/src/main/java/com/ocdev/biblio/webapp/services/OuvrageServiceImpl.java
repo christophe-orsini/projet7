@@ -27,7 +27,7 @@ public class OuvrageServiceImpl implements OuvrageService
 		String password = restTemplateService.getPassword();
 	 	RestTemplate restTemplate = restTemplateBuilder.basicAuthentication(username, password).build();
 	 	
-		return restTemplate.getForObject(properties.getApiUrl() + "ouvrages" +  id, Ouvrage.class);
+		return restTemplate.getForObject(properties.getApiUrl() + "ouvrages/" +  id, Ouvrage.class);
 	}
 
 	@Override
