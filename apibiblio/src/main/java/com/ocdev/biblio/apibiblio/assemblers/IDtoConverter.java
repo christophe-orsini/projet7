@@ -8,4 +8,10 @@ public interface IDtoConverter<T, U>
 	 * @return L'entité
 	 */
 	T convertDtoToEntity(U dto);
+	/**
+	 * Méthode de mappage d'une entité vers un DTO vers.
+	 * @param entity L'entité à mapper
+	 * @return Le DTO
+	 */
+	U convertEntityToDto(T entity);
 }

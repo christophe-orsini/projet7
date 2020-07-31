@@ -22,10 +22,6 @@ public class Theme implements Serializable
 	@Column(nullable = false)
 	private String nom;
 
-	//@OneToMany(mappedBy = "theme", fetch = FetchType.LAZY)
-	//@JsonIgnore
-	//private Collection<Ouvrage> ouvrages;
-
 	public Theme()
 	{
 		super();
@@ -56,16 +52,6 @@ public class Theme implements Serializable
 	{
 		this.nom = nom;
 	}
-
-//		public Collection<Ouvrage> getOuvrages()
-//	{
-//		return ouvrages;
-//	}
-//
-//		public void setOuvrages(Collection<Ouvrage> ouvrages)
-//	{
-//		this.ouvrages = ouvrages;
-//	}
 
 	@Override
 	public String toString()

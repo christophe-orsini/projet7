@@ -1,5 +1,6 @@
 package com.ocdev.biblio.apibiblio.services;
 
+import javax.persistence.EntityNotFoundException;
 import com.ocdev.biblio.apibiblio.dto.UtilisateurCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Utilisateur;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -17,4 +18,11 @@ public interface UtilisateurService
 	 * @throws AlreadyExistsException levée si un utilisateur avec le même email (login) existe déjà
 	 */
 	public Utilisateur creer(UtilisateurCreateDto utilisateurDto) throws AlreadyExistsException;
+	/**
+	 * Obtenir un utilisateur par son email
+	 * @param email String L'email (login) de l'utilisateur cherché
+	 * @return Utilisateur L'utilisateur
+	 * @throws EntityNotFoundException levée si l'utilisateur n'existe pas
+	 */
+	public Utilisateur obtenir(String email) throws EntityNotFoundException; 
 }
