@@ -15,8 +15,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import com.ocdev.biblio.webapp.config.PropertiesConfigurationService;
+
 import com.ocdev.biblio.webapp.dto.UserCredentialsResponse;
+import com.ocdev.biblio.webapp.services.PropertiesConfigurationService;
 import com.ocdev.biblio.webapp.services.RestTemplateService;
 
 @Component

@@ -1,4 +1,4 @@
-package com.ocdev.biblio.webapp.config;
+package com.ocdev.biblio.webapp.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

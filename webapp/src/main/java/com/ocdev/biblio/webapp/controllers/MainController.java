@@ -5,7 +5,8 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.ocdev.biblio.webapp.config.PropertiesConfigurationService;
+
+import com.ocdev.biblio.webapp.services.PropertiesConfigurationService;
 
 @Controller
 public class MainController
