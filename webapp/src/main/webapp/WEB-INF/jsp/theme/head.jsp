@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <head>
 	<meta charset="UTF-8">
-	<title>Les amis de l'escalade</title>
+	<title>Les bibliothèques de Bouquinville</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 	<link href="/webjars/bootstrap/4.4.1-1/css/bootstrap.css" rel="stylesheet">
 	<script src="/webjars/jquery/3.5.1/jquery.js"></script>
