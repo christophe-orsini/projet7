@@ -1,17 +1,14 @@
 package com.ocdev.biblio.apibiblio.controllers;
 
 import java.security.Principal;
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.ocdev.biblio.apibiblio.dto.UserCredentialsResponse;
 import com.ocdev.biblio.apibiblio.dto.UtilisateurCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Utilisateur;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -45,30 +42,14 @@ public class UtilisateurController
 			@ApiResponse(code = 401, message = "Le login et/ou le mot de passe sont incorrects"),
 			@ApiResponse(code = 403, message = "L'URI necessite une Basic Authentication")
 			})
-	@GetMapping(value = "/checklogin", produces = "application/json")
-	public ResponseEntity<UserCredentialsResponse> checkLogin(Principal principal)
+	@PostMapping(value = "/checklogin", produces = "application/json")
+	public ResponseEntity<String> checkLogin(Principal principal)
 	{
 		if (principal == null)
 		{
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 		
-		Utilisateur utilisateur = null;
-		try
-		{
-			utilisateur = utilisateurService.obtenir(principal.getName());
-		}
-		catch (EntityNotFoundException e)
-		{
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		}
-		
-        UserCredentialsResponse result = 
-				new UserCredentialsResponse(
-						utilisateur.getEmail(), 
-						utilisateur.getPassword(), 
-						utilisateur.getRole());
-				
-		return new ResponseEntity<UserCredentialsResponse>(result, HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }

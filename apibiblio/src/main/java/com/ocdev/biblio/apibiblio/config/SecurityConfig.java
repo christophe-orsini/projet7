@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		httpSecurity.authorizeRequests()
 		.antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/webjars/**", "/swagger-ui.html").permitAll();
 		httpSecurity.authorizeRequests().antMatchers("/api/v1/utilisateurs/**").permitAll();
-		httpSecurity.authorizeRequests().antMatchers("/api/v1/login/**").authenticated();
+		httpSecurity.authorizeRequests().antMatchers("/api/v1/checklogin/**").authenticated();
 		httpSecurity.authorizeRequests().anyRequest().authenticated();
 		httpSecurity.httpBasic().authenticationEntryPoint(apiBiblioAuthenticationEntryPoint);
 		httpSecurity.formLogin().disable();
