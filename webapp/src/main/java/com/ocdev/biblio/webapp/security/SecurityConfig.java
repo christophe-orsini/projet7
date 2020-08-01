@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-	@Autowired private CustomAuthenticationProvider authProvider;
+	//@Autowired private CustomAuthenticationProvider authProvider;
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		        .and()
         		.formLogin()
 	                .loginPage("/login")
+	                .loginProcessingUrl("/checklogin")
 	                .defaultSuccessUrl("/abonne/listeOuvrages")
 	                .permitAll()
 	                .and()
@@ -52,13 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      * @param auth
      * @throws Exception
      */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception
-    {
-    	auth.authenticationProvider(authProvider);
-    	auth.inMemoryAuthentication()
-        .withUser("demo")
-        .password(bCryptPasswordEncoder().encode("demo"))
-        .roles("ABONNE");
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception
+//    {
+//    	auth.authenticationProvider(authProvider);
+//    	
+//    }
 }

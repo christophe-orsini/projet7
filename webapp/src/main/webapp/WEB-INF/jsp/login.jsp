@@ -12,7 +12,7 @@
 			<p class="h3">Connexion</p>
 		</div>
 		<div class="col-12 col-md-8">
-			<c:url value="/login" var="loginProcessingUrl"/>
+			<c:url value="/checklogin" var="loginProcessingUrl"/>
 			<form action="${loginProcessingUrl}" method="post" class="form-row form-inline">
 		        <c:if test="${param.error != null}">
 		            <div class="col-12">

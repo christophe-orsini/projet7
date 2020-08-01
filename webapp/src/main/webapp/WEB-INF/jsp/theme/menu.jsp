@@ -26,8 +26,8 @@
 				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
 					role="button" aria-haspopup="true" aria-expanded="false">Prêts</a>
 				<div class="dropdown-menu">
-					<a class="nav-link" href="/abonne/listePrets">Vos prêts encours</a>
-					<a class="nav-link" href="/abonne/prolongerPret">Prolongerun prêt</a>
+					<a class="nav-link" href="/abonne/listePrets">Vos prêts en cours</a>
+					<a class="nav-link" href="/abonne/prolongerPret">Prolonger un prêt</a>
 				</div>
 			</div>
 			<sec:authorize access="hasAnyRole('ROLE_ADMINISTRATEUR')">
