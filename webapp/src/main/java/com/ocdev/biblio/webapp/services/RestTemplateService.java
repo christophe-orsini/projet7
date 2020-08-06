@@ -39,7 +39,7 @@ public class RestTemplateService
 	{
 		_login = login;
 		_password = password;
-		
+				
 	 	return restTemplateBuilder.basicAuthentication(_login, _password).build();
 	}
 

@@ -3,6 +3,7 @@ package com.ocdev.biblio.webapp.security;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,21 +31,21 @@ public class CustomAuthenticationProvider implements AuthenticationProvider
     	String login = authentication.getName();
         String password = authentication.getCredentials().toString();
         
-        RestTemplate restTemplate = restTemplateService.buildRestTemplate();
-        
-        ResponseEntity<String> userResponse = null;
-    	try
-		{
-    		userResponse = restTemplate.getForEntity(properties.getApiUrl() + "checklogin", String.class);
-		}
-		catch (RestClientException e)
-		{
-			throw new BadCredentialsException("External system authentication failed");
-		}
-		if (userResponse == null) throw new BadCredentialsException("External system authentication failed");
-        
-        restTemplateService.setLogin(login);
-        restTemplateService.setPassword(password);
+        if (!authentication.isAuthenticated())
+        {
+        	RestTemplate restTemplate = restTemplateService.buildRestTemplate(login, password);
+            
+            ResponseEntity<String> userResponse = null;
+        	try
+    		{
+        		userResponse = restTemplate.postForEntity(properties.getApiUrl() + "checklogin", null, String.class);
+    		}
+    		catch (RestClientException e)
+    		{
+    			throw new BadCredentialsException("External system authentication failed");
+    		}
+    		if (userResponse == null || userResponse.getStatusCode() != HttpStatus.OK) return null;
+        }
         
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(Role.ROLE_ABONNE.toString()));
