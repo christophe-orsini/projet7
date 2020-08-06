@@ -13,21 +13,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-	@Autowired private CustomAuthenticationProvider authProvider;
+	@Autowired CustomAuthenticationProvider authenticationProvider;
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
 		        .authorizeRequests()
 			        .antMatchers("/").permitAll()
+			        .antMatchers("/login**").permitAll()
+			        .antMatchers("/checklogin").permitAll()
 			        .antMatchers("/inscription").permitAll()
 			        .antMatchers("/theme/error").permitAll()
 			        .antMatchers("/theme/fatal").permitAll()
 			        .antMatchers("/public/**").permitAll()
 			        .antMatchers("/webjars/**").permitAll()
-			        .antMatchers("/abonne/**").hasAnyRole("ABONNE, EMPLOYE, ADMINISTRATEUR")
-			        .antMatchers("/employe/**").hasAnyRole("EMPLOYE, ADMINISTRATEUR")
-			        .anyRequest().hasAnyRole("ADMINISTRATEUR")
+			        .anyRequest().authenticated()
 		        .and()
         		.formLogin()
 	                .loginPage("/login")
@@ -35,8 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	                .permitAll()
 	                .and()
 	                .logout()
-	                .logoutUrl("/logout")
-	                .logoutSuccessUrl("/")
 	                .invalidateHttpSession(true)
 	                .permitAll();
     }
@@ -47,18 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return new BCryptPasswordEncoder();
     }
     
-    /**
-     * Création du Manager d'Authentification 
-     * @param auth
-     * @throws Exception
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {
-    	auth.authenticationProvider(authProvider);
-    	auth.inMemoryAuthentication()
-        .withUser("demo")
-        .password(bCryptPasswordEncoder().encode("demo"))
-        .roles("ABONNE");
+    	auth.authenticationProvider(authenticationProvider);
     }
 }
