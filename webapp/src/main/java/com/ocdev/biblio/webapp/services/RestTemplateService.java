@@ -35,9 +35,16 @@ public class RestTemplateService
 		_password = password;
 	}
 	
+	public RestTemplate buildRestTemplate(String login, String password)
+	{
+		_login = login;
+		_password = password;
+		
+	 	return restTemplateBuilder.basicAuthentication(_login, _password).build();
+	}
+
 	public RestTemplate buildRestTemplate()
 	{
 	 	return restTemplateBuilder.basicAuthentication(_login, _password).build();
 	}
-
 }

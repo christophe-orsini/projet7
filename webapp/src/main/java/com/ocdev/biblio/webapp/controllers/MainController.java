@@ -12,7 +12,7 @@ public class MainController
 {
 	@Autowired ConnectionService connectionService;
 		
-	@GetMapping({"/login", "/", "/index" , "/logout"})
+	@GetMapping({"/", "/index", "/login"})
 	public String login(Model model)
 	{	
 		return "/login";
@@ -23,9 +23,9 @@ public class MainController
 	{	
 		if (connectionService.checkLogin(username, password))
 		{
-			return "/abonne/listeOuvrages";
+			return "redirect:/abonne/listeOuvrages";
 		}
 		
-		return "/login";
+		return "redirect:/login?error=true";
 	}
 }
