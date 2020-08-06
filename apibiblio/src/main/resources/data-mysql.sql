@@ -15,6 +15,7 @@ INSERT INTO utilisateur (id, email, nom, password, prenom, role) VALUES
 (1, "admin@biblio.fr", "Administrateur", "$2a$10$eZPZMT/NtMtoJANyhmIIUuRXakpVesT0wNMC4NHLd2r9UF/sVNFxu", NULL, "ROLE_ADMINISTRATEUR"),
 (2, "abonne@biblio.fr", "Abonné", "$2a$10$nxSnMr9s6rYmqCefnlWnse3R6FSMT8aYPVIeada9IAam2fNbfoW1a", NULL, "ROLE_ABONNE");
 
-INSERT INTO pret (id, date_debut, date_fin_prevu, date_retour, statut, abonne_id, ouvrage_id, nbre_prolongations) VALUES
+INSERT INTO pret (id, date_debut, date_fin_prevu, date_retour, statut, abonne_id, ouvrage_id, prolongations_possible) VALUES
 (1, "2020-07-10", "2020-08-07", NULL, "EN_COURS", 1, 1, 1),
-(2, "2020-07-08", "2020-08-05", NULL, "EN_COURS", 2, 2, 0);
+(2, "2020-07-08", "2020-08-05", NULL, "EN_COURS", 2, 3, 0),
+(3, "2020-07-11", "2020-08-08", NULL, "EN_COURS", 2, 4, 1);
