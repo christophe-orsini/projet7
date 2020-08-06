@@ -17,8 +17,10 @@
 				<form:input path="auteur" class="form-control form-control-sm col-12 col-md-4" placeholder="Auteur" />
 				<form:input path="theme" class="form-control form-control-sm col-12 col-sm-6 col-md-4" 
 					placeholder="Theme" />
-				<form:input path="nbreExemplaire" class="form-control form-control-sm col-12 col-sm-6 col-md-4" 
-					placeholder="Nbre exemplaires" />
+				<div class="form-check form-check-inline col-4 col-md-2 ml-1">
+					<form:checkbox path="disponible" class="form-check-input" />
+					<form:label path="disponible" class="form-check-label">Disponible ?</form:label>	
+				</div>
 				<input class="btn btn-primary btn-sm ml-auto" type="submit" name="submit" value="Rechercher" />																		
 			</form:form>	
 		</div>

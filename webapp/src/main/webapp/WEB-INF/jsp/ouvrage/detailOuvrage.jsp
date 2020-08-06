@@ -24,6 +24,9 @@
 				<p class="col-7 col-md-4 p-0">Exemplaires disponibles : ${ouvrage.nbreExemplaire}<p>				
 			</div>			
 		</div>
+		<div class="col-12">
+			<a class="btn btn-primary" href="/abonne/listeOuvrages" role="button">Retour</a>
+		</div>
 	</section>
 <%@ include file="../theme/footer.jsp" %>
 </body>
