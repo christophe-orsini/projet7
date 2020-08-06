@@ -66,8 +66,10 @@ public class PretServiceImpl implements PretService
 		
 		pret.setStatut(Statut.EN_COURS);
 		
-		// Initialiser le nombre de prolongations possible
+		// Initialiser le nombre de prolongations et de periode possible
 		pret.setProlongationsPossible(AppSettings.getIntSetting("nbre-prolongations"));
+		pret.setPeriodes(1);
+		
 		// sauvegarde de l'ouvrage
 		ouvrageRepository.save(ouvrage.get());
 		
@@ -124,14 +126,13 @@ public class PretServiceImpl implements PretService
 		// prolongation
 		Calendar c = Calendar.getInstance();
 		c.setTime(pret.get().getDateDebut());
-		c.add(Calendar.DAY_OF_MONTH, AppSettings.getIntSetting("duree-pret"));
+		c.add(Calendar.DAY_OF_MONTH, AppSettings.getIntSetting("duree-pret") * (pret.get().getPeriodes() + 1));
 		Date nouvelleDateFin = c.getTime();
 		
-		// set nouvelle date de fin prevue
+		// MaJ pret
 		pret.get().setDateFinPrevu(nouvelleDateFin);
-		
-		// set nouveau statut
 		pret.get().setStatut(Statut.PROLONGE);
+		pret.get().setPeriodes(pret.get().getPeriodes() + 1);
 		pret.get().setProlongationsPossible(pret.get().getProlongationsPossible() - 1);
 		
 		// sauvegarder
