@@ -35,6 +35,7 @@ public class Utilisateur implements Serializable
 	private String nom;
 	@Column(nullable = true)
 	private String prenom;
+	@JsonIgnore
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -46,6 +47,7 @@ public class Utilisateur implements Serializable
 	{
 		super();
 	}
+	
 	public Utilisateur(String email, String password, String nom, String prenom)
 	{
 		super();
