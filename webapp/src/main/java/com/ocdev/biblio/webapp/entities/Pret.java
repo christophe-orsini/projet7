@@ -15,7 +15,7 @@ public class Pret implements Serializable
 	private Date dateFinPrevu;
 	private Date dateRetour;
 	private Statut statut;
-	private int nbreProlongations;
+	private int prolongationsPossible;
 	private Utilisateur abonne;
 	private Ouvrage ouvrage;
 
@@ -81,14 +81,14 @@ public class Pret implements Serializable
 		this.statut = statut;
 	}
 
-	public int getNbreProlongations()
+	public int getProlongationsPossible()
 	{
-		return nbreProlongations;
+		return prolongationsPossible;
 	}
 
-	public void setNbreProlongations(int nbreProlongations)
+	public void setProlongationsPossible(int nbreProlongations)
 	{
-		this.nbreProlongations = nbreProlongations;
+		this.prolongationsPossible = nbreProlongations;
 	}
 
 	public Utilisateur getAbonne()
