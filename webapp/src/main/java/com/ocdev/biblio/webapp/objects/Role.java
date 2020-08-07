@@ -1,4 +1,4 @@
-package com.ocdev.biblio.webapp.entities;
+package com.ocdev.biblio.webapp.objects;
 
 /**
  * Enum pour les rôles.

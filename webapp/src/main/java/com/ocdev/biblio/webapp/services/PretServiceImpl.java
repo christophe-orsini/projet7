@@ -12,8 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import com.ocdev.biblio.webapp.entities.Pret;
-import com.ocdev.biblio.webapp.entities.Utilisateur;
+
+import com.ocdev.biblio.webapp.objects.Pret;
+import com.ocdev.biblio.webapp.objects.Utilisateur;
 import com.ocdev.biblio.webapp.utils.RestResponsePage;
 
 @Service

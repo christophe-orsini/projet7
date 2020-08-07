@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.ocdev.biblio.webapp.dto.SearchOuvrageDto;
-import com.ocdev.biblio.webapp.entities.Ouvrage;
+import com.ocdev.biblio.webapp.objects.Ouvrage;
 import com.ocdev.biblio.webapp.services.OuvrageService;
 
 @Controller
