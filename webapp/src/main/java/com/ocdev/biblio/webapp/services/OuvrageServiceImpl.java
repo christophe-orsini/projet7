@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.ocdev.biblio.webapp.dto.OuvrageCriteria;
 import com.ocdev.biblio.webapp.dto.SearchOuvrageDto;
-import com.ocdev.biblio.webapp.entities.Ouvrage;
+import com.ocdev.biblio.webapp.objects.Ouvrage;
 import com.ocdev.biblio.webapp.utils.RestResponsePage;
 
 @Service

@@ -3,7 +3,7 @@ package com.ocdev.biblio.webapp.services;
 import org.springframework.data.domain.Page;
 
 import com.ocdev.biblio.webapp.dto.SearchOuvrageDto;
-import com.ocdev.biblio.webapp.entities.Ouvrage;
+import com.ocdev.biblio.webapp.objects.Ouvrage;
 
 public interface OuvrageService
 {

@@ -5,7 +5,8 @@ import java.security.Principal;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.data.domain.Page;
-import com.ocdev.biblio.webapp.entities.Pret;
+
+import com.ocdev.biblio.webapp.objects.Pret;
 
 public interface PretService
 {
