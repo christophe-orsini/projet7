@@ -15,34 +15,8 @@
 			<a class="nav-link" href="/inscription">S'inscrire</a>
 		</sec:authorize>
 		<sec:authorize access="isAuthenticated()">
-			<div class="dropdown">
-				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-					role="button" aria-haspopup="true" aria-expanded="false">Ouvrages</a>
-				<div class="dropdown-menu">
-					<a class="nav-link" href="/abonne/listeOuvrages">Liste des ouvrages</a>
-				</div>
-			</div>
-			<div class="dropdown">
-				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-					role="button" aria-haspopup="true" aria-expanded="false">Prêts</a>
-				<div class="dropdown-menu">
-					<a class="nav-link" href="/abonne/listePrets">Vos prêts en cours</a>
-					<a class="nav-link" href="/abonne/prolongerPret">Prolonger un prêt</a>
-				</div>
-			</div>
-			<sec:authorize access="hasAnyRole('ROLE_ADMINISTRATEUR')">
-				<div class="dropdown">
-					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
-						role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
-					<div class="dropdown-menu">
-						<a class="nav-link" href="/admin/creerPret">Créer un prêt</a>
-						<a class="nav-link" href="/admin/retourPret">Retour d'un prêt</a>
-						<a class="nav-link" href="/admin/crerOuvrage">Créer un ouvrage</a>					
-						<a class="nav-link" href="/admin/listeThemes">Liste des thèmes</a>					
-						<a class="nav-link" href="/admin/crerTheme">Créer un thème</a>					
-					</div>
-				</div>
-			</sec:authorize>
+			<a class="nav-link" href="/abonne/listeOuvrages">Liste des ouvrages</a>		
+			<a class="nav-link" href="/abonne/listePrets">Vos prêts en cours</a>
 			<a class="nav-link ml-auto" href="/logout">Se déconnecter</a>
 		</sec:authorize>
 	</div>

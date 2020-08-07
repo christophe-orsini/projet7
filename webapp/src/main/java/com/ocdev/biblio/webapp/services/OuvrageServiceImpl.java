@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.ocdev.biblio.webapp.dto.OuvrageCriteria;
+import com.ocdev.biblio.webapp.dto.SearchOuvrageDto;
 import com.ocdev.biblio.webapp.entities.Ouvrage;
 import com.ocdev.biblio.webapp.utils.RestResponsePage;
 
@@ -25,13 +26,19 @@ public class OuvrageServiceImpl implements OuvrageService
 	}
 
 	@Override
-	public RestResponsePage<Ouvrage> listeOuvrages(OuvrageCriteria ouvrageCriteria, int page, int taille)
+	public RestResponsePage<Ouvrage> listeOuvrages(SearchOuvrageDto ouvrageCherche, int page, int taille)
 	{
 	 	RestTemplate restTemplate = restTemplateService.buildRestTemplate();
 	 	
 		ParameterizedTypeReference<RestResponsePage<Ouvrage>> responseType = 
 				new ParameterizedTypeReference<RestResponsePage<Ouvrage>>() { };
 
+		OuvrageCriteria ouvrageCriteria = new OuvrageCriteria(
+				ouvrageCherche.getTitre(),
+				ouvrageCherche.getAuteur(), 0,
+				ouvrageCherche.getTheme(),
+				ouvrageCherche.isDisponible() ? 1 : 0);
+		
 		HttpEntity<OuvrageCriteria> entity = new HttpEntity<OuvrageCriteria>(ouvrageCriteria);
 		ResponseEntity<RestResponsePage<Ouvrage>> result = restTemplate.exchange(
 				properties.getApiUrl() + "ouvrages/search", HttpMethod.POST, entity, responseType);

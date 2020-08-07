@@ -2,6 +2,8 @@ package com.ocdev.biblio.webapp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -35,16 +37,17 @@ public class RestTemplateService
 		_password = password;
 	}
 	
-	public RestTemplate buildRestTemplate(String login, String password)
+	public RestTemplate buildRestTemplate(String login, String password) throws AuthenticationException
 	{
 		_login = login;
 		_password = password;
 				
-	 	return restTemplateBuilder.basicAuthentication(_login, _password).build();
+	 	return buildRestTemplate();
 	}
 
-	public RestTemplate buildRestTemplate()
+	public RestTemplate buildRestTemplate() throws AuthenticationException
 	{
+		if (_login == null || _password == null) throw new BadCredentialsException("L'utilisateur n'est pas connecté");
 	 	return restTemplateBuilder.basicAuthentication(_login, _password).build();
 	}
 }
