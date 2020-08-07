@@ -1,5 +1,7 @@
 package com.ocdev.biblio.apibiblio.controllers;
 
+import java.net.URI;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.ocdev.biblio.apibiblio.dto.ThemeCreateDto;
 import com.ocdev.biblio.apibiblio.entities.Theme;
 import com.ocdev.biblio.apibiblio.errors.AlreadyExistsException;
@@ -39,8 +43,18 @@ public class ThemeController
 	@PostMapping(value ="/themes", produces = "application/json")
 	public ResponseEntity<Theme> ajouterTheme(@Valid @RequestBody final ThemeCreateDto themeCreateDto) throws AlreadyExistsException
 	{
-		Theme result = themeService.creer(themeCreateDto);
-		return new ResponseEntity<Theme>(result, HttpStatus.CREATED);
+		Theme newTheme = themeService.creer(themeCreateDto);
+		if (newTheme == null) return ResponseEntity.noContent().build();
+		
+		//return new ResponseEntity<Theme>(result, HttpStatus.CREATED);
+		
+		URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newTheme.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
 	}
 	
 	@ApiOperation(value = "Liste des thèmes", notes = "Obtenir la liste des thèmes")

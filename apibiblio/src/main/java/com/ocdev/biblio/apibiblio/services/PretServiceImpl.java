@@ -66,6 +66,10 @@ public class PretServiceImpl implements PretService
 		
 		pret.setStatut(Statut.EN_COURS);
 		
+		// Initialiser le nombre de prolongations et de periode possible
+		pret.setProlongationsPossible(AppSettings.getIntSetting("nbre-prolongations"));
+		pret.setPeriodes(1);
+		
 		// sauvegarde de l'ouvrage
 		ouvrageRepository.save(ouvrage.get());
 		
@@ -111,9 +115,8 @@ public class PretServiceImpl implements PretService
 		Optional<Pret> pret = pretRepository.findById(pretId);
 		if (!pret.isPresent()) throw new EntityNotFoundException("Le prêt n'existe pas");
 		
-		// verifier si le pret a deja été prolongé
-		int nbProlongations = AppSettings.getIntSetting("nbre-prolongations");
-		if (nbProlongations <= pret.get().getNbreProlongations()) throw new DelayLoanException("Le prêt ne peut plus être prolongé");
+		// verifier si le pret peut etre prolongé
+		if (pret.get().getProlongationsPossible() <= 0) throw new DelayLoanException("Le prêt ne peut plus être prolongé");
 		
 		// verifier si le demandeur est l'emprunteur ou un employé
 		Utilisateur utilisateur = pret.get().getAbonne();
@@ -123,15 +126,14 @@ public class PretServiceImpl implements PretService
 		// prolongation
 		Calendar c = Calendar.getInstance();
 		c.setTime(pret.get().getDateDebut());
-		c.add(Calendar.DAY_OF_MONTH, AppSettings.getIntSetting("duree-pret") * ++nbProlongations);
+		c.add(Calendar.DAY_OF_MONTH, AppSettings.getIntSetting("duree-pret") * (pret.get().getPeriodes() + 1));
 		Date nouvelleDateFin = c.getTime();
 		
-		// set nouvelle date de fin prevue
+		// MaJ pret
 		pret.get().setDateFinPrevu(nouvelleDateFin);
-		
-		// set nouveau statut
 		pret.get().setStatut(Statut.PROLONGE);
-		pret.get().setNbreProlongations(pret.get().getNbreProlongations() + 1);
+		pret.get().setPeriodes(pret.get().getPeriodes() + 1);
+		pret.get().setProlongationsPossible(pret.get().getProlongationsPossible() - 1);
 		
 		// sauvegarder
 		return pretRepository.save(pret.get());

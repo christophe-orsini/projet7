@@ -66,7 +66,7 @@ public class OuvrageController
 			@ApiResponse(code = 200, message = "La liste des ouvrages est retourné dans le corps de la réponse"),
 			@ApiResponse(code = 403, message = "Authentification requise")
 			})
-	@GetMapping(value = "/ouvrages", produces = "application/json")
+	@PostMapping(value = "/ouvrages/search", produces = "application/json")
 	public ResponseEntity<Page<Ouvrage>> rechercherOuvrages(@RequestBody final OuvrageCriteria ouvrageCriteria, 
 			@RequestParam(required = false, defaultValue = "0") int page,
 			@RequestParam(required = false, defaultValue = "99") int taille)

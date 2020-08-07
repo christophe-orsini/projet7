@@ -5,3 +5,4 @@ javadoc.xml
 target
 *.class
 doc
+*.json

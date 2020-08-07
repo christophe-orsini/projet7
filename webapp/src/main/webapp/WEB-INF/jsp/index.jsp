@@ -4,10 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-<!--%@ include file="theme/head.jsp" %-->
+<%@ include file="theme/head.jsp" %>
 <body class="container">
-<%-- <%@ include file="theme/header.jsp" %> --%>
-<%-- <%@ include file="theme/menu.jsp" %> --%>
+<%@ include file="theme/header.jsp" %>
+<%@ include file="theme/menu.jsp" %>
 	<section class="row">
 		<div class="col-12">
 			<p class="h3">Accueil</p>
@@ -22,6 +22,6 @@
 			</sec:authorize>
 		</div>	
 	</section>
-<%-- <%@ include file="theme/footer.jsp" %> --%>
+<%@ include file="theme/footer.jsp" %>
 </body>
 </html>

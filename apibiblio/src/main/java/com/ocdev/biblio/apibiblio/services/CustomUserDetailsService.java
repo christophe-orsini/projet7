@@ -21,18 +21,18 @@ public class CustomUserDetailsService implements UserDetailsService
 	private UtilisateurRepository utilisateurRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
 	{
-		Optional<Utilisateur> user = utilisateurRepository.findByEmailIgnoreCase(username);
+		Optional<Utilisateur> user = utilisateurRepository.findByEmailIgnoreCase(email);
         if (!user.isPresent())
         {
-            throw new UsernameNotFoundException("Pas d'utilisateur avec l'identifiant : " + username);
+            throw new UsernameNotFoundException("Pas d'utilisateur avec l'identifiant : " + email);
         }
         
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(user.get().getRole().toString()));
 		
-		UserDetails result = new User(username, user.get().getPassword(), authorities);
+		UserDetails result = new User(email, user.get().getPassword(), authorities);
 		
 		return result;
 	}

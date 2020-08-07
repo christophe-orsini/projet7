@@ -2,6 +2,7 @@ package com.ocdev.biblio.apibiblio.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,17 @@ public class UtilisateurServiceImpl implements UtilisateurService
 		
 		// log
 		return utilisateurRepository.save(utilisateur);
+	}
+
+	@Override
+	public Utilisateur obtenir(String email) throws EntityNotFoundException
+	{
+		Optional<Utilisateur> utilisateur = utilisateurRepository.findByEmailIgnoreCase(email);
+		if (!utilisateur.isPresent())
+		{
+			throw new EntityNotFoundException("L'utilisateur n'existe pas");
+		}
+		
+		return utilisateur.get();
 	}
 }

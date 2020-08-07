@@ -43,7 +43,10 @@ public class Pret implements Serializable
 	private Statut statut;
 
 	@Column(nullable = true)
-	private int nbreProlongations;
+	private int periodes;
+
+	@Column(nullable = true)
+	private int prolongationsPossible;
 	
 	@JoinColumn(name = "abonne_id")
 	@ManyToOne
@@ -116,14 +119,24 @@ public class Pret implements Serializable
 		this.statut = statut;
 	}
 
-	public int getNbreProlongations()
+	public int getPeriodes()
 	{
-		return nbreProlongations;
+		return periodes;
 	}
 
-	public void setNbreProlongations(int nbreProlongations)
+	public void setPeriodes(int periodes)
 	{
-		this.nbreProlongations = nbreProlongations;
+		this.periodes = periodes;
+	}
+	
+	public int getProlongationsPossible()
+	{
+		return prolongationsPossible;
+	}
+
+	public void setProlongationsPossible(int nbreProlongations)
+	{
+		this.prolongationsPossible = nbreProlongations;
 	}
 
 	public Utilisateur getAbonne()

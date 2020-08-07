@@ -12,7 +12,7 @@
 			<p class="h3">Erreur fatale</p>
 		</div>	
 		<div class="col-12">
-			<p>Une erreur fayale s'est produite<br />
+			<p>Une erreur fatale s'est produite<br />
 			L'application ne peut plus fonctionner<br />
 			Veuillez contacter l'administrateur du site et lui communiquer les éléments :</p>
 			<p>${exceptionMessage.getMessage()}</p>
