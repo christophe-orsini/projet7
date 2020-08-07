@@ -28,7 +28,7 @@ public class PretController
 	@GetMapping("/abonne/prolongerPret/{id}")
 	public String prolonger(@PathVariable Long id, Model model, Principal utilisateur)
 	{
-		Pret response = pretService.prolonger(utilisateur, id);
+		pretService.prolonger(utilisateur, id);
 				
 		return "redirect:/abonne/listePrets";
 	}
