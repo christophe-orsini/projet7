@@ -1,10 +1,14 @@
 package com.ocdev.biblio.apibiblio.controllers;
 
+import java.util.Collection;
+import java.util.Date;
+
 import javax.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -99,5 +103,17 @@ public class PretController
 	{
 		Pret result = pretService.prolonger(pretId, utilisateurId);
 		return new ResponseEntity<Pret>(result, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "Prêts en retard", notes = "Liste des prêts avec date de fin postérieur à une date")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "La liste est retournée dans le corps de la réponse")
+			})
+	@GetMapping(value ="/prets/retard", produces = "application/json")
+	public ResponseEntity<Collection<Pret>> pretsEnRetard(
+			@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") final Date dateMaxi)
+	{
+		Collection<Pret> result = pretService.pretsEnRetard(dateMaxi);
+		return new ResponseEntity<Collection<Pret>>(result, HttpStatus.OK);
 	}
 }

@@ -10,7 +10,8 @@ public enum Role
 {
 	ROLE_ABONNE("Abonné"), 
 	ROLE_EMPLOYE("Employé"), 
-	ROLE_ADMINISTRATEUR("Administrateur");
+	ROLE_ADMINISTRATEUR("Administrateur"),
+	ROLE_BATCH("Traitement Batch");
 
 	private String name;
 

@@ -1,5 +1,8 @@
 package com.ocdev.biblio.apibiblio.services;
 
+import java.util.Collection;
+import java.util.Date;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.ocdev.biblio.apibiblio.entities.Pret;
@@ -58,4 +61,11 @@ public interface PretService
 	 * @throws EntityNotFoundException levée si le prêt n'existe pas
 	 */
 	public Pret consulter(Long pretId) throws EntityNotFoundException;
+	/**
+	 * Retourne la liste des prêts en reatrd.
+	 * Compare la date en argument avec la date de fin prévu
+	 * @param dateMaxi La date maximale de comparaison
+	 * @return La liste des prêts avec une date de fin prévue supérieure à la date en argument
+	 */
+	public Collection<Pret> pretsEnRetard(Date dateMaxi);
 }
