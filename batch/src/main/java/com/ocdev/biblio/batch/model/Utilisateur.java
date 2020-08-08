@@ -1,4 +1,4 @@
-package com.ocdev.biblio.batch.objects;
+package com.ocdev.biblio.batch.model;
 
 import java.io.Serializable;
 import java.util.Collection;
