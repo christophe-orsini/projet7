@@ -35,8 +35,8 @@ public class EmailServiceImpl implements EmailService
 
         helper.setTo(abonne.getEmail());
         helper.setText(contentBuilder.build(abonne), true);
-        helper.setSubject("Votre retour de prêt est en retard");
-        helper.setFrom("info@biblio.fr");
+        helper.setSubject(properties.emailSubject());
+        helper.setFrom(properties.emailContact());
         emailSender.send(message);
     }
 	

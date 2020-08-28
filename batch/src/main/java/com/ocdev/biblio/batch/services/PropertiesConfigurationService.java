@@ -30,6 +30,27 @@ public class PropertiesConfigurationService
 		return _password;
 	}
 	
+	@Value("${app.param.emailcontact}") 
+	private String _emailContact="";
+	public String emailContact()
+	{
+		return _emailContact;
+	}
+	
+	@Value("${app.param.urlwebapp}") 
+	private String _urlWebApp="";
+	public String urlWebApp()
+	{
+		return _urlWebApp;
+	}
+	
+	@Value("${app.param.emailsubject}") 
+	private String _emailSubject="";
+	public String emailSubject()
+	{
+		return _emailSubject;
+	}
+	
 	@Value("${spring.mail.host}")
 	private String _host="";
 	public String host()

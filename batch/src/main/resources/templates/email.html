@@ -30,7 +30,7 @@
             <td th:text="${#dates.format(pret.dateDebut, 'dd MMMM yyyy')}"></td>
             <td th:text="${#dates.format(pret.dateFinPrevu, 'dd MMMM yyyy')}"></td>
             <td th:if="${pret.prolongationsPossible > 0}">
-    	    	<a th:href="@{'http://' + ${notreSite}}">Prolonger l'emprunt</a></td>
+    	    	<a th:href="@{${notreSite}}">Prolonger l'emprunt</a></td>
     		<td th:unless="${pret.prolongationsPossible > 0}">Retour immédiat de l'ouvrage</td>
         </tr>
     </table> 
