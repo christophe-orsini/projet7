@@ -1,5 +1,7 @@
 package com.ocdev.biblio.apibiblio.dao;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +21,5 @@ public interface PretRepository extends JpaRepository<Pret, Long>
 {
 	Optional<Pret> findByAbonneIdAndOuvrageIdAndStatutNot(Long abonneId, Long ouvrageId, Statut statut);
 	Page<Pret> findByAbonneIdAndStatutNotAndStatutNot(Long abonneId, Statut statut1, Statut Statut2, Pageable paging);
+	Collection<Pret> findByDateFinPrevuLessThan(Date dateMaxi);
 }

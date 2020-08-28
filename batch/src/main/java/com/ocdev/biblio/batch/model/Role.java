@@ -1,4 +1,4 @@
-package com.ocdev.biblio.apibiblio.entities;
+package com.ocdev.biblio.batch.model;
 
 /**
  * Enum pour les rôles.
@@ -10,8 +10,7 @@ public enum Role
 {
 	ROLE_ABONNE("Abonné"), 
 	ROLE_EMPLOYE("Employé"), 
-	ROLE_ADMINISTRATEUR("Administrateur"),
-	ROLE_BATCH("Traitement Batch");
+	ROLE_ADMINISTRATEUR("Administrateur");
 
 	private String name;
 
