@@ -1,4 +1,4 @@
-package com.ocdev.biblio.webapp.entities;
+package com.ocdev.biblio.batch.model;
 
 /**
 * Enum pour le statut d'un prêt.

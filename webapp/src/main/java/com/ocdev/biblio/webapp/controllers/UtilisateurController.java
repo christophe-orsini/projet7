@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.ocdev.biblio.webapp.dto.UtilisateurDto;
-import com.ocdev.biblio.webapp.entities.Utilisateur;
 import com.ocdev.biblio.webapp.errors.BiblioException;
+import com.ocdev.biblio.webapp.objects.Utilisateur;
 import com.ocdev.biblio.webapp.services.UtilisateurService;
 
 @Controller

@@ -1,6 +1,7 @@
 package com.ocdev.biblio.apibiblio.services;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,5 +157,15 @@ public class PretServiceImpl implements PretService
 		if (!pret.isPresent()) throw new EntityNotFoundException("Le prêt n'existe pas");
 		
 		return pret.get();
+	}
+
+	@Override
+	public Collection<Pret> pretsEnRetard(Date dateMaxi)
+	{
+		if (dateMaxi == null)
+		{
+			dateMaxi = new Date();
+		}
+		return pretRepository.findByDateFinPrevuLessThan(dateMaxi);
 	}
 }
