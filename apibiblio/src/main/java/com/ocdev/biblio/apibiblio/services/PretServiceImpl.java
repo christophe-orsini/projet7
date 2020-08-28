@@ -168,6 +168,4 @@ public class PretServiceImpl implements PretService
 		}
 		return pretRepository.findByDateFinPrevuLessThan(dateMaxi);
 	}
-	
-	
 }

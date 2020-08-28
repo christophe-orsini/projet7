@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiResponses;
 public class PretController
 {
 	@Autowired PretService pretService;
-	
+		
 	@ApiOperation(value = "Création d'un prêt", notes = "Création d'un nouveau prêt")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Le prêt est correctement créé"),
