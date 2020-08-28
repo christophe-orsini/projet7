@@ -7,7 +7,7 @@ import org.thymeleaf.context.Context;
 import com.ocdev.biblio.batch.model.Utilisateur;
 
 @Service
-public class EmailContentBuilder
+public class DelayEmailContentBuilder
 {
 	@Autowired TemplateEngine templateEngine;
 	

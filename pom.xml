@@ -25,7 +25,7 @@
 	</parent>
 	
 	<properties>
-		<my-version>1.0.3</my-version>
+		<my-version>1.0.4</my-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -147,7 +147,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			</plugin>	
 		</plugins>
 	</build>
 </project>

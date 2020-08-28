@@ -21,10 +21,10 @@ import com.ocdev.biblio.batch.model.Utilisateur;
 public class EmailServiceImpl implements EmailService
 {
 	@Autowired PropertiesConfigurationService properties;
-	@Autowired EmailContentBuilder contentBuilder;
+	@Autowired DelayEmailContentBuilder contentBuilder;
 	
 	@Override
-    public void sendEmailEnRetard(Utilisateur abonne) throws MessagingException
+    public void envoiEmailEnRetard(Utilisateur abonne) throws MessagingException
 	{
 		JavaMailSender emailSender = getJavaMailSender();
 				
