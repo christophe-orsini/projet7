@@ -38,7 +38,7 @@ public class ScheduledTask
 		Collection<Utilisateur> abonnes = emailService.pretsParAbonne(pretsEnRetard);
 		for (Utilisateur abonne : abonnes)
 		{
-			emailService.sendEmailEnRetard(abonne);
+			emailService.envoiEmailEnRetard(abonne);
 		}
 	}
 }

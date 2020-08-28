@@ -11,7 +11,13 @@
  	<br />
     <p>Bonjour M <span th:text="${abonne.nom} ?: ''"></span></p>
 
-    <p>Sauf erreur de notre part, vous n'avez pas encore rendu le/les emprunt(s) suivant(s) :</p>
+    <p th:if="${#lists.size(abonne.prets) > 1}">
+    	Sauf erreur de notre part, vous n'avez pas encore rendu les 
+    	<span th:text="${#lists.size(abonne.prets)}"></span> emprunts suivants :
+   	</p>
+   	<p th:unless="${#lists.size(abonne.prets) > 1}">
+    	Sauf erreur de notre part, vous n'avez pas encore rendu l'emprunt suivant :
+   	</p>
     <table border="1">
     	<tr>
     		<th>Ouvrage</th>
@@ -32,7 +38,11 @@
     <p>Pour toutes questions ou en cas de difficulté, vous pouvez nous contacter par email à cette adresse
     	<a th:href="@{'mailto:' + ${email}}"><span th:text="${email}"></span></a>	
     </p>
-    <p>Si vous avez déjà retourné cet/ces ouvrage(s) veuillez ne pas tenir compte de cet email.
+    <p th:if="${#lists.size(abonne.prets) > 1}">
+    	Si vous avez déjà retourné ces ouvrages veuillez ne pas tenir compte de cet email.
+    </p>
+    <p th:unless="${#lists.size(abonne.prets) > 1}">
+    	Si vous avez déjà retourné cet ouvrage veuillez ne pas tenir compte de cet email.
     </p>
     <p>Cordialement<br /><br />
       L'équipe des bibliothèques de Bouquinville

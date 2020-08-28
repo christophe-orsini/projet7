@@ -9,13 +9,17 @@ import com.ocdev.biblio.batch.model.Utilisateur;
 
 public interface EmailService
 {
-	
-	public void sendEmailEnRetard(Utilisateur abonne) throws MessagingException;
+	/**
+	 * Envoi d'un email pour retour d'emprunt en retard
+	 * @param abonne L'abonné destinataire de l'email
+	 * @throws MessagingException
+	 */
+	public void envoiEmailEnRetard(Utilisateur abonne) throws MessagingException;
 	
 	/**
-	 * Liste les prets par utilisateur
+	 * Liste les prets par abonné
 	 * @param prets La liste des prets
-	 * @return La liste des utilisateurs
+	 * @return La liste des abonnés avec leurs prets respectifs
 	 */
 	public Collection<Utilisateur> pretsParAbonne(Collection<Pret> prets);
 }
