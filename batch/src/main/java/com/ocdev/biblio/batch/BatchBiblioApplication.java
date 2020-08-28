@@ -5,7 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import com.ocdev.biblio.batch.services.ScheduledTask;
+import com.ocdev.biblio.batch.services.EmailService;
+import com.ocdev.biblio.batch.services.PretService;
 
 /**
  * Classe principale de l'application.
@@ -17,7 +18,8 @@ import com.ocdev.biblio.batch.services.ScheduledTask;
 @EnableScheduling
 public class BatchBiblioApplication implements CommandLineRunner
 {
-	@Autowired ScheduledTask scheduledTask;
+	@Autowired PretService pretService;
+	@Autowired EmailService emailService;
 	
 	/**
 	 * Méthode <b>Main</b>.
@@ -33,6 +35,7 @@ public class BatchBiblioApplication implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception
 	{
-	
+		//ScheduledTask st = new ScheduledTask(pretService, emailService);
+		//st.cronTask();
 	}
 }

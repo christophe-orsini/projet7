@@ -15,6 +15,6 @@ public class RestTemplateService
 	public RestTemplate buildRestTemplate() throws AuthenticationException
 	{
 	 	return restTemplateBuilder.basicAuthentication(
-	 			properties.getLogin(), properties.getPassword()).build();
+	 			properties.login(), properties.password()).build();
 	}
 }

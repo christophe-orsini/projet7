@@ -6,28 +6,83 @@ import org.springframework.stereotype.Service;
 @Service
 public class PropertiesConfigurationService
 {
-	@Value("${app.serveur.apiurl}") // injection via application.properties
-	private String url="";
-
-	public String getApiUrl()
+	// injection via application.properties
+	
+	@Value("${app.serveur.apiurl}") 
+	private String _url="";
+	public String apiUrl()
 	{
-		if (url.endsWith("/")) return url;
-		return url + "/";
+		if (_url.endsWith("/")) return _url;
+		return _url + "/";
 	}
 	
 	@Value("${app.serveur.login}")
-	private String login="";
-
-	public String getLogin()
+	private String _login="";
+	public String login()
 	{
-		return login;
+		return _login;
 	}
 	
 	@Value("${app.serveur.password}")
-	private String password="";
-
-	public String getPassword()
+	private String _password="";
+	public String password()
 	{
-		return password;
+		return _password;
+	}
+	
+	@Value("${spring.mail.host}")
+	private String _host="";
+	public String host()
+	{
+		return _host;
+	}
+	
+	@Value("${spring.mail.port}")
+	private int _port;
+	public int port()
+	{
+		return _port;
+	}
+	
+	@Value("${spring.mail.protocol}")
+	private String _protocol="";
+	public String protocol()
+	{
+		return _protocol;
+	}
+	
+	@Value("${spring.mail.username}")
+	private String _username="";
+	public String username()
+	{
+		return _username;
+	}
+	
+	@Value("${spring.mail.password}")
+	private String _emailPassword="";
+	public String emailPassword()
+	{
+		return _emailPassword;
+	}
+	
+	@Value("${spring.mail.default-encoding}")
+	private String _encoding="";
+	public String encoding()
+	{
+		return _encoding;
+	}
+	
+	@Value("${spring.mail.properties.mail.smtp.auth}")
+	private boolean _needAuth;
+	public boolean needAuth()
+	{
+		return _needAuth;
+	}
+	
+	@Value("${spring.mail.properties.mail.smtp.starttls.enable}")
+	private boolean _startTls;
+	public boolean startTls()
+	{
+		return _startTls;
 	}
 }
