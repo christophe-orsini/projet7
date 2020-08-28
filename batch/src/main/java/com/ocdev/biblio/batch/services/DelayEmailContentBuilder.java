@@ -9,14 +9,15 @@ import com.ocdev.biblio.batch.model.Utilisateur;
 @Service
 public class DelayEmailContentBuilder
 {
+	@Autowired PropertiesConfigurationService properties;
 	@Autowired TemplateEngine templateEngine;
 	
 	public String build(Utilisateur abonne)
 	{
 		Context context = new Context();
         context.setVariable("abonne", abonne);
-        context.setVariable("email", "info@biblio.fr");
-        context.setVariable("notreSite", "localhost:8084");
+        context.setVariable("email", properties.emailContact());
+        context.setVariable("notreSite", properties.urlWebApp());
         
         return templateEngine.process("email", context);
 	}

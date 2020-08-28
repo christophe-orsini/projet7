@@ -1,3 +1,5 @@
+USE `biblio`;
+
 INSERT INTO theme (id, nom) VALUES
 (1, "Inconnu"),
 (2, "Aventure pour tous"),
