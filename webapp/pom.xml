@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>biblio</artifactId>
 		<groupId>com.ocdev</groupId>
-		<version>1.0.2</version>
+		<version>${my-version}</version>
 	</parent>
 
 	<artifactId>webapp</artifactId>
