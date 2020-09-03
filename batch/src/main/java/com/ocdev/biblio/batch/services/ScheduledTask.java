@@ -19,6 +19,8 @@ public class ScheduledTask
 {
 	@Autowired PretService pretService;
 	@Autowired EmailService emailService;
+	@Autowired EmailContentBuilder contentBuilder;
+	@Autowired PropertiesConfigurationService properties;
 	
 	public ScheduledTask()
 	{
@@ -34,11 +36,16 @@ public class ScheduledTask
 	@Scheduled(cron = "${app.cron.expression}")
 	public void cronTask() throws AddressException, MessagingException, IOException
 	{
-		Collection<Pret> pretsEnRetard = pretService.listePretsEnRetard(new Date());
-		Collection<Utilisateur> abonnes = emailService.pretsParAbonne(pretsEnRetard);
+		Collection<Pret> pretsEnRetard = pretService.listePretsEnCoursADate(new Date());
+		Collection<Utilisateur> abonnes = pretService.pretsParAbonne(pretsEnRetard);
 		for (Utilisateur abonne : abonnes)
 		{
-			emailService.envoiEmailEnRetard(abonne);
+			String emailContent = contentBuilder.buildDelayEmail(abonne);
+			emailService.envoiEmailHtml(
+					abonne.getEmail(),
+					emailContent,
+					properties.emailSubject(),
+					properties.emailContact());
 		}
 	}
 }
