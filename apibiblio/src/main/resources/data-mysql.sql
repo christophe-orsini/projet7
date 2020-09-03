@@ -21,8 +21,8 @@ INSERT INTO utilisateur (id, email, nom, password, prenom, role) VALUES
 (3, "batch@biblio.fr", "Traitement Batch", "$2a$10$n4CJ9BhIyr90Qte2uOSJFeBaV/cXbDjrcRv7ryrCM27t462oGrpcm", NULL, "ROLE_BATCH");
 
 INSERT INTO pret (id, date_debut, date_fin_prevu, date_retour, statut, abonne_id, ouvrage_id, periodes, prolongations_possible) VALUES
-(1, "2020-07-16", "2020-08-13", NULL, "EN_COURS", 1, 1, 1, 1),
-(2, "2020-07-06", "2020-08-31", NULL, "PROLONGE", 2, 2, 2, 0),
-(3, "2020-06-08", "2020-08-03", NULL, "PROLONGE", 2, 3, 2, 0),
-(4, "2020-07-06", "2020-08-03", NULL, "EN_COURS", 2, 4, 1, 1),
-(5, "2020-08-03", "2020-08-31", NULL, "EN_COURS", 2, 5, 1, 1);
+(1, "2020-08-17", "2020-09-14", NULL, "EN_COURS", 1, 1, 1, 1),
+(2, "2020-08-06", "2020-10-01", NULL, "PROLONGE", 2, 2, 2, 0),
+(3, "2020-07-08", "2020-09-02", NULL, "PROLONGE", 2, 3, 2, 0),
+(4, "2020-08-05", "2020-09-02", NULL, "EN_COURS", 2, 4, 1, 1),
+(5, "2020-09-02", "2020-09-30", NULL, "EN_COURS", 2, 5, 1, 1);
