@@ -30,6 +30,13 @@ public class PropertiesConfigurationService
 		return _password;
 	}
 	
+	@Value("${app.param.societe}") 
+	private String _societe="";
+	public String societe()
+	{
+		return _societe;
+	}
+	
 	@Value("${app.param.emailcontact}") 
 	private String _emailContact="";
 	public String emailContact()
