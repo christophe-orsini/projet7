@@ -3,7 +3,7 @@
 ## Project N°7 Gestion du SI des bibliothèques de Bouquinville
 
 * Développeur : Christophe ORSINI
-* Version ${my-version}
+* Version @my-version@
 
 ---
 ### Prérequis
