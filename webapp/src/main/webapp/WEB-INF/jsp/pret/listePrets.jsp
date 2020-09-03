@@ -15,7 +15,6 @@
 		</div>
 		<div class="col-12 table-responsive">
 			<table class="table table-sm table-striped table-bordered">
-				<caption>Cliquer sur le titre pour voir les détails</caption>
 				<thead>
 					<tr>
 						<th>Titre</th>
